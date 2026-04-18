@@ -1,11 +1,7 @@
 import requests
+TELEGRAM_TOKEN = "8695040059:AAFtVSvo6Tpa9aDJ9tadn3Ie6ljYyaFQTc4"  
+TELEGRAM_CHAT_ID = "1149625096"  
 
-# ========================================
-# REPLACE THESE WITH YOUR ACTUAL VALUES!
-# ========================================
-TELEGRAM_TOKEN = "8695040059:AAFtVSvo6Tpa9aDJ9tadn3Ie6ljYyaFQTc4"   # From @BotFather
-TELEGRAM_CHAT_ID = "1149625096"   # From getUpdates URL
-# ========================================
 
 def send_to_telegram(user_name, user_message):
     """Send user message to your Telegram"""

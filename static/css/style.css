@@ -8,7 +8,7 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     color: #2c3e50;
     line-height: 1.6;
-    overflow-x: hidden;
+    background: #fafafa;
 }
 
 .container {
@@ -22,7 +22,8 @@ nav {
     position: fixed;
     top: 0;
     width: 100%;
-    background: white;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     z-index: 1000;
 }
@@ -87,7 +88,7 @@ section {
     margin: 0 auto 48px;
 }
 
-/* Hero Section */
+/* Hero */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -138,16 +139,12 @@ section {
     color: transparent;
 }
 
-.buttons {
-    display: flex;
-    gap: 16px;
-}
-
 .btn {
     padding: 12px 28px;
     border-radius: 50px;
     text-decoration: none;
     font-weight: 600;
+    display: inline-block;
     transition: all 0.3s;
 }
 
@@ -175,8 +172,8 @@ section {
 }
 
 .image-circle {
-    width: 350px;
-    height: 350px;
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(0,0,0,0.15);
@@ -188,20 +185,6 @@ section {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-
-/* About Section */
-.about {
-    background: #f8f9fa;
-}
-
-.about-text {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 1.1rem;
-    color: #6c757d;
-    line-height: 1.8;
 }
 
 /* Timeline */
@@ -256,25 +239,20 @@ section {
     margin-bottom: 8px;
 }
 
-.degree {
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
 .date {
     font-size: 0.9rem;
     color: #c9a87c;
     font-weight: 500;
 }
 
-/* Experience Cards */
+/* Experience */
 .experience-card {
     background: white;
     padding: 28px;
     border-radius: 16px;
     margin-bottom: 24px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    transition: all 0.3s;
+    transition: transform 0.3s;
 }
 
 .experience-card:hover {
@@ -284,7 +262,6 @@ section {
 
 .experience-card h3 {
     color: #2d3e50;
-    font-size: 1.3rem;
     margin-bottom: 8px;
 }
 
@@ -312,7 +289,7 @@ section {
     color: #c9a87c;
 }
 
-/* Volunteer Grid */
+/* Volunteer */
 .volunteer-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -333,12 +310,17 @@ section {
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-.volunteer-card p {
-    font-weight: 500;
+.volunteer-card h3 {
     color: #2d3e50;
+    margin-bottom: 8px;
 }
 
-/* Projects Grid */
+.volunteer-org {
+    color: #c9a87c;
+    font-weight: 500;
+}
+
+/* Projects */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -400,7 +382,7 @@ section {
     gap: 12px;
 }
 
-/* Skills Section */
+/* Skills */
 .skills {
     background: #f8f9fa;
 }
@@ -441,7 +423,7 @@ section {
 /* Languages */
 .languages {
     max-width: 600px;
-    margin: 0 auto;
+    margin: 40px auto 0;
 }
 
 .language-item {
@@ -475,7 +457,7 @@ section {
     transition: width 1s ease;
 }
 
-/* Contact Section */
+/* Contact */
 .contact {
     background: linear-gradient(135deg, #2d3e50, #1a2a38);
     color: white;
@@ -519,34 +501,170 @@ footer {
     font-size: 0.9rem;
 }
 
+/* Chat Widget */
+.chat-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    font-family: 'Inter', sans-serif;
+}
+
+.chat-button {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #2d3e50, #c9a87c);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 28px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+    color: white;
+}
+
+.chat-button:hover {
+    transform: scale(1.05);
+}
+
+.chat-window {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 350px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-window.open {
+    display: flex;
+}
+
+.chat-header {
+    background: linear-gradient(135deg, #2d3e50, #1a2a38);
+    color: white;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.chat-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 8px;
+}
+
+.chat-body {
+    padding: 16px;
+    min-height: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.chat-message {
+    padding: 10px 14px;
+    border-radius: 18px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    max-width: 85%;
+}
+
+.chat-message.bot {
+    background: #2d3e50;
+    color: white;
+    margin-right: auto;
+}
+
+.chat-message.user {
+    background: #c9a87c;
+    color: white;
+    margin-left: auto;
+}
+
+.chat-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.chat-option-btn {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.chat-option-btn:hover {
+    background: #2d3e50;
+    color: white;
+    border-color: #2d3e50;
+}
+
+.chat-input, .chat-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 14px;
+    margin-top: 8px;
+    font-family: inherit;
+}
+
+.chat-textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.chat-submit {
+    background: linear-gradient(135deg, #c9a87c, #8ba3b8);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    margin-top: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    width: 100%;
+}
+
+.chat-submit:hover {
+    opacity: 0.9;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .hero-content {
         grid-template-columns: 1fr;
         text-align: center;
     }
-    
     .hero-text h1 {
         font-size: 2.5rem;
     }
-    
-    .buttons {
+    .hero-buttons {
         justify-content: center;
     }
-    
-    .image-circle {
-        width: 250px;
-        height: 250px;
-    }
-    
     .nav-links {
         display: none;
     }
-    
     .menu-btn {
         display: block;
     }
-    
     .nav-links.active {
         display: flex;
         flex-direction: column;
@@ -559,8 +677,11 @@ footer {
         text-align: center;
         box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     }
-    
     .section-title {
         font-size: 2rem;
+    }
+    .chat-window {
+        width: 300px;
+        right: 0;
     }
 }

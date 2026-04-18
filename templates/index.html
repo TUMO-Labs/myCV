@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <!-- Navigation -->
     <nav>
         <div class="nav-container">
             <div class="logo">EY</div>
@@ -18,6 +17,7 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#education">Education</a></li>
                 <li><a href="#experience">Experience</a></li>
+                <li><a href="#volunteer">Volunteer</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#contact">Contact</a></li>
@@ -26,7 +26,6 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="container">
             <div class="hero-content">
@@ -34,22 +33,21 @@
                     <div class="badge">Welcome to my portfolio</div>
                     <h1>Hi, I'm <span class="highlight">{{ data.name }}</span></h1>
                     <h2>{{ data.title }}</h2>
-                    <p>{{ data.about[:150] }}...</p>
-                    <div class="buttons">
+                    <p>{{ data.about[:160] }}...</p>
+                    <div class="hero-buttons">
                         <a href="#contact" class="btn primary">Get in touch</a>
                         <a href="#projects" class="btn secondary">View projects</a>
                     </div>
                 </div>
                 <div class="hero-image">
                     <div class="image-circle">
-                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Profile">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Elen" onerror="this.src='https://via.placeholder.com/300x300?text=Elen'">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
             <h2 class="section-title">About Me</h2>
@@ -60,7 +58,6 @@
         </div>
     </section>
 
-    <!-- Education Section -->
     <section id="education" class="education">
         <div class="container">
             <h2 class="section-title">Education</h2>
@@ -71,7 +68,7 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <h3>{{ edu.institution }}</h3>
-                        <p class="degree">{{ edu.degree }}</p>
+                        <p>{{ edu.degree }}</p>
                         <p class="date">{{ edu.period }}</p>
                     </div>
                 </div>
@@ -80,12 +77,11 @@
         </div>
     </section>
 
-    <!-- Work Experience Section -->
     <section id="experience" class="experience">
         <div class="container">
             <h2 class="section-title">Work Experience</h2>
             <div class="section-line"></div>
-            {% for job in data.work %}
+            {% for job in data.work_experience %}
             <div class="experience-card">
                 <h3>{{ job.title }}</h3>
                 <p class="company">{{ job.company }} | {{ job.period }}</p>
@@ -99,22 +95,21 @@
         </div>
     </section>
 
-    <!-- Volunteer Section -->
     <section id="volunteer" class="volunteer">
         <div class="container">
             <h2 class="section-title">Volunteer Experience</h2>
             <div class="section-line"></div>
             <div class="volunteer-grid">
-                {% for vol in data.volunteer %}
+                {% for vol in data.volunteer_experience %}
                 <div class="volunteer-card">
-                    <p>{{ vol }}</p>
+                    <h3>{{ vol.role }}</h3>
+                    <p class="volunteer-org">{{ vol.organization }}</p>
                 </div>
                 {% endfor %}
             </div>
         </div>
     </section>
 
-    <!-- Projects Section -->
     <section id="projects" class="projects">
         <div class="container">
             <h2 class="section-title">Projects</h2>
@@ -125,18 +120,17 @@
                     <h3>{{ project.name }}</h3>
                     <p>{{ project.description }}</p>
                     <div class="tech-stack">
-                        {% for tech in project.tech %}
+                        {% for tech in project.technologies %}
                         <span class="tech">{{ tech }}</span>
                         {% endfor %}
                     </div>
-                    <a href="{{ project.link }}" target="_blank" class="project-link">View on GitHub →</a>
+                    <a href="{{ project.github }}" target="_blank" class="project-link">View on GitHub →</a>
                 </div>
                 {% endfor %}
             </div>
         </div>
     </section>
 
-    <!-- Skills Section -->
     <section id="skills" class="skills">
         <div class="container">
             <h2 class="section-title">Skills</h2>
@@ -151,19 +145,15 @@
                 </div>
             </div>
             {% endfor %}
-            
-            <h3 style="margin-top: 40px;">Languages</h3>
+
+            <h3 style="margin-top: 40px; text-align: center;">Languages</h3>
             <div class="languages">
                 {% for lang in data.languages %}
                 <div class="language-item">
                     <span class="lang-name">{{ lang.name }}</span>
                     <span class="lang-level">{{ lang.level }}</span>
                     <div class="progress-bar">
-                        <div class="progress" style="width: 
-                            {% if lang.level == 'Native' %}100%
-                            {% elif lang.level == 'Fluent' %}90%
-                            {% elif lang.level == 'Conversational' %}70%
-                            {% else %}40%{% endif %}"></div>
+                        <div class="progress" style="width: {{ lang.percentage }}%;"></div>
                     </div>
                 </div>
                 {% endfor %}
@@ -171,30 +161,54 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
             <h2 class="section-title">Get in Touch</h2>
             <div class="section-line"></div>
-            <div class="contact-content">
-                <div class="contact-card">
-                    <p>I'm always open to new opportunities and collaborations!</p>
-                    <div class="contact-info">
-                        <p>📧 <a href="mailto:{{ data.email }}">{{ data.email }}</a></p>
-                        <p>🐙 <a href="{{ data.github }}" target="_blank">GitHub</a></p>
-                        <p>🔗 <a href="{{ data.linkedin }}" target="_blank">LinkedIn</a></p>
-                    </div>
+            <div class="contact-card">
+                <p>I'm always open to new opportunities and collaborations!</p>
+                <div class="contact-info">
+                    <p>📧 <a href="mailto:{{ data.email }}">{{ data.email }}</a></p>
+                    <p>🐙 <a href="{{ data.github }}" target="_blank">GitHub</a></p>
+                    <p>🔗 <a href="{{ data.linkedin }}" target="_blank">LinkedIn</a></p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <p>&copy; 2024 Elen Yeghiazaryan. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-button" id="chatButton">💬</div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <span>💬 Elen Yeghiazaryan</span>
+                <button class="chat-close" id="chatClose">×</button>
+            </div>
+            <div class="chat-body" id="chatBody">
+                <div class="chat-message bot">Hi there! 👋 I'm Elen. What's your name?</div>
+                <div id="chatNameStep">
+                    <input type="text" id="userName" placeholder="Your name..." class="chat-input">
+                    <button id="submitName" class="chat-submit">Continue →</button>
+                </div>
+                <div id="chatOptionsStep" style="display: none;">
+                    <div id="chatOptions"></div>
+                    <div id="chatCustomMessage" style="display: none;">
+                        <textarea id="userMessage" placeholder="Type your message here..." class="chat-textarea"></textarea>
+                        <button id="submitMessage" class="chat-submit">Send Message 📨</button>
+                    </div>
+                </div>
+                <div id="chatConfirmation" style="display: none;">
+                    <div class="chat-message bot">✅ Thanks! I'll get back to you soon!</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>

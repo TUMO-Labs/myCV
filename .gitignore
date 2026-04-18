@@ -45,4 +45,4 @@ instance/
 .webassets-cache
 
 # Git
-*.orig
+*.orig.DS_Store

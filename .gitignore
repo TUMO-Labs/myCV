@@ -1,46 +1,48 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
 # Virtual Environment
 venv/
 env/
 ENV/
-.env
 
-# Python cache files
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.so
 
-# IDE files
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
-*~
 
-# OS files
-.DS_Store
-Thumbs.db
-
-# Flask specific
-instance/
-.webassets-cache
+# Environment variables
+.env
+.flaskenv
 
 # Logs
 *.log
+*.pid
 
 # Database
 *.db
 *.sqlite
 *.sqlite3
 
-# Environment variables
-.env
-.flaskenv
-
 # Testing
 .pytest_cache/
 .coverage
 htmlcov/
 
-# Deployment
-*.pid
+# Flask
+instance/
+.webassets-cache
+
+# Git
+*.orig

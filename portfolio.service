@@ -1,0 +1,18 @@
+[Unit]
+Description=Gunicorn instance to serve my portfolio
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/workspace/myCV
+Environment="PATH=/home/ubuntu/workspace/myCV/venv/bin"
+ExecStart=/home/ubuntu/workspace/myCV/venv/bin/gunicorn \
+    --worker-class eventlet \
+    --workers 1 \
+    --bind 127.0.0.1:5002 \
+    app:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -3,213 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Elen Yeghiazaryan - CS & Applied Mathematics Student Portfolio">
+    <meta name="description" content="Elen Yeghiazaryan – CS & Applied Mathematics Student Portfolio">
+    <meta name="theme-color" content="#0f1923">
     <title>Elen Yeghiazaryan | Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <nav>
-        <div class="nav-container">
-            <div class="logo">EY</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#volunteer">Volunteer</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="menu-btn">☰</div>
-        </div>
-    </nav>
 
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <div class="badge">Welcome to my portfolio</div>
-                    <h1>Hi, I'm <span class="highlight">{{ data.name }}</span></h1>
-                    <h2>{{ data.title }}</h2>
-                    <p>{{ data.about[:160] }}...</p>
-                    <div class="hero-buttons">
-                        <a href="#contact" class="btn primary">Get in touch</a>
-                        <a href="#projects" class="btn secondary">View projects</a>
-                    </div>
+<!-- ── Navigation ─────────────────────────────── -->
+<nav id="navbar">
+    <div class="nav-container">
+        <div class="logo">EY</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#volunteer">Volunteer</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="menu-btn" id="menuBtn" aria-label="Toggle menu">☰</div>
+    </div>
+</nav>
+
+<!-- ── Hero ───────────────────────────────────── -->
+<section id="home" class="hero">
+    <div class="hero-bg-circle c1"></div>
+    <div class="hero-bg-circle c2"></div>
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="badge">Welcome to my portfolio</div>
+                <h1>Hi, I'm <span class="highlight">{{ data.name }}</span></h1>
+                <h2>{{ data.title }}</h2>
+                <p>{{ data.about[:180] }}…</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn primary">Get in touch</a>
+                    <a href="#projects" class="btn secondary">View projects</a>
                 </div>
-                <div class="hero-image">
+            </div>
+            <div class="hero-image">
+                <div class="image-ring">
                     <div class="image-circle">
-                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Elen" onerror="this.src='https://via.placeholder.com/300x300?text=Elen'">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}"
+                             alt="Elen Yeghiazaryan"
+                             onerror="this.src='https://placehold.co/300x300/c9a87c/fff?text=EY'">
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="section-line"></div>
-            <div class="about-text">
-                <p>{{ data.about }}</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="education" class="education">
-        <div class="container">
-            <h2 class="section-title">Education</h2>
-            <div class="section-line"></div>
-            <div class="timeline">
-                {% for edu in data.education %}
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>{{ edu.institution }}</h3>
-                        <p>{{ edu.degree }}</p>
-                        <p class="date">{{ edu.period }}</p>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <section id="experience" class="experience">
-        <div class="container">
-            <h2 class="section-title">Work Experience</h2>
-            <div class="section-line"></div>
-            {% for job in data.work_experience %}
-            <div class="experience-card">
-                <h3>{{ job.title }}</h3>
-                <p class="company">{{ job.company }} | {{ job.period }}</p>
-                <ul>
-                    {% for resp in job.responsibilities %}
-                    <li>{{ resp }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endfor %}
-        </div>
-    </section>
-
-    <section id="volunteer" class="volunteer">
-        <div class="container">
-            <h2 class="section-title">Volunteer Experience</h2>
-            <div class="section-line"></div>
-            <div class="volunteer-grid">
-                {% for vol in data.volunteer_experience %}
-                <div class="volunteer-card">
-                    <h3>{{ vol.role }}</h3>
-                    <p class="volunteer-org">{{ vol.organization }}</p>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">Projects</h2>
-            <div class="section-line"></div>
-            <div class="projects-grid">
-                {% for project in data.projects %}
-                <div class="project-card">
-                    <h3>{{ project.name }}</h3>
-                    <p>{{ project.description }}</p>
-                    <div class="tech-stack">
-                        {% for tech in project.technologies %}
-                        <span class="tech">{{ tech }}</span>
-                        {% endfor %}
-                    </div>
-                    <a href="{{ project.github }}" target="_blank" class="project-link">View on GitHub →</a>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <section id="skills" class="skills">
-        <div class="container">
-            <h2 class="section-title">Skills</h2>
-            <div class="section-line"></div>
-            {% for category, skills_list in data.skills.items() %}
-            <div class="skill-category">
-                <h3>{{ category }}</h3>
-                <div class="skills-grid">
-                    {% for skill in skills_list %}
-                    <span class="skill-badge">{{ skill }}</span>
-                    {% endfor %}
-                </div>
-            </div>
-            {% endfor %}
-
-            <h3 style="margin-top: 40px; text-align: center;">Languages</h3>
-            <div class="languages">
-                {% for lang in data.languages %}
-                <div class="language-item">
-                    <span class="lang-name">{{ lang.name }}</span>
-                    <span class="lang-level">{{ lang.level }}</span>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: {{ lang.percentage }}%;"></div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Get in Touch</h2>
-            <div class="section-line"></div>
-            <div class="contact-card">
-                <p>I'm always open to new opportunities and collaborations!</p>
-                <div class="contact-info">
-                    <p>📧 <a href="mailto:{{ data.email }}">{{ data.email }}</a></p>
-                    <p>🐙 <a href="{{ data.github }}" target="_blank">GitHub</a></p>
-                    <p>🔗 <a href="{{ data.linkedin }}" target="_blank">LinkedIn</a></p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Elen Yeghiazaryan. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Chat Widget -->
-    <div class="chat-widget" id="chatWidget">
-        <div class="chat-button" id="chatButton">💬</div>
-        <div class="chat-window" id="chatWindow">
-            <div class="chat-header">
-                <span>💬 Elen Yeghiazaryan</span>
-                <button class="chat-close" id="chatClose">×</button>
-            </div>
-            <div class="chat-body" id="chatBody">
-                <div class="chat-message bot">Hi there! 👋 I'm Elen. What's your name?</div>
-                <div id="chatNameStep">
-                    <input type="text" id="userName" placeholder="Your name..." class="chat-input">
-                    <button id="submitName" class="chat-submit">Continue →</button>
-                </div>
-                <div id="chatOptionsStep" style="display: none;">
-                    <div id="chatOptions"></div>
-                    <div id="chatCustomMessage" style="display: none;">
-                        <textarea id="userMessage" placeholder="Type your message here..." class="chat-textarea"></textarea>
-                        <button id="submitMessage" class="chat-submit">Send Message 📨</button>
-                    </div>
-                </div>
-                <div id="chatConfirmation" style="display: none;">
-                    <div class="chat-message bot">✅ Thanks! I'll get back to you soon!</div>
                 </div>
             </div>
         </div>
     </div>
+    <a href="#about" class="scroll-hint" aria-label="Scroll down">↓</a>
+</section>
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<!-- ── About ──────────────────────────────────── -->
+<section id="about" class="about section-pad">
+    <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="section-line"></div>
+        <div class="about-text">
+            <p>{{ data.about }}</p>
+        </div>
+    </div>
+</section>
+
+<!-- ── Education ──────────────────────────────── -->
+<section id="education" class="education section-pad">
+    <div class="container">
+        <h2 class="section-title">Education</h2>
+        <div class="section-line"></div>
+        <div class="timeline">
+            {% for edu in data.education %}
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>{{ edu.institution }}</h3>
+                    <p class="degree">{{ edu.degree }}</p>
+                    <p class="date">{{ edu.period }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ── Experience ─────────────────────────────── -->
+<section id="experience" class="experience section-pad">
+    <div class="container">
+        <h2 class="section-title">Work Experience</h2>
+        <div class="section-line"></div>
+        {% for job in data.work_experience %}
+        <div class="experience-card reveal">
+            <div class="exp-header">
+                <div>
+                    <h3>{{ job.title }}</h3>
+                    <p class="company">{{ job.company }}</p>
+                </div>
+                <span class="period-badge">{{ job.period }}</span>
+            </div>
+            <ul>
+                {% for resp in job.responsibilities %}
+                <li>{{ resp }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- ── Volunteer ──────────────────────────────── -->
+<section id="volunteer" class="volunteer section-pad">
+    <div class="container">
+        <h2 class="section-title">Volunteer Experience</h2>
+        <div class="section-line"></div>
+        <div class="volunteer-grid">
+            {% for vol in data.volunteer_experience %}
+            <div class="volunteer-card reveal">
+                <div class="vol-icon">🤝</div>
+                <h3>{{ vol.role }}</h3>
+                <p class="volunteer-org">{{ vol.organization }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ── Projects ───────────────────────────────── -->
+<section id="projects" class="projects section-pad">
+    <div class="container">
+        <h2 class="section-title">Projects</h2>
+        <div class="section-line"></div>
+        <div class="projects-grid">
+            {% for project in data.projects %}
+            <div class="project-card reveal">
+                <h3>{{ project.name }}</h3>
+                <p>{{ project.description }}</p>
+                <div class="tech-stack">
+                    {% for tech in project.technologies %}
+                    <span class="tech">{{ tech }}</span>
+                    {% endfor %}
+                </div>
+                <a href="{{ project.github }}" target="_blank" rel="noopener" class="project-link">
+                    View on GitHub →
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ── Skills ─────────────────────────────────── -->
+<section id="skills" class="skills section-pad">
+    <div class="container">
+        <h2 class="section-title">Skills</h2>
+        <div class="section-line"></div>
+
+        {% for category, skills_list in data.skills.items() %}
+        <div class="skill-category reveal">
+            <h3>{{ category }}</h3>
+            <div class="skills-grid">
+                {% for skill in skills_list %}
+                <span class="skill-badge">{{ skill }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <h3 class="lang-heading">Languages</h3>
+        <div class="languages">
+            {% for lang in data.languages %}
+            <div class="language-item">
+                <div class="lang-meta">
+                    <span class="lang-name">{{ lang.name }}</span>
+                    <span class="lang-level">{{ lang.level }}</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress" data-width="{{ lang.percentage }}"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ── Contact ────────────────────────────────── -->
+<section id="contact" class="contact section-pad">
+    <div class="container">
+        <h2 class="section-title">Get in Touch</h2>
+        <div class="section-line light"></div>
+        <div class="contact-card">
+            <p>I'm always open to new opportunities and collaborations!</p>
+            <div class="contact-info">
+                <a href="mailto:{{ data.email }}" class="contact-link">
+                    <span class="contact-icon">✉</span>{{ data.email }}
+                </a>
+                <a href="{{ data.github }}" target="_blank" rel="noopener" class="contact-link">
+                    <span class="contact-icon">⌥</span>GitHub
+                </a>
+                <a href="{{ data.linkedin }}" target="_blank" rel="noopener" class="contact-link">
+                    <span class="contact-icon">↗</span>LinkedIn
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────── -->
+<footer>
+    <div class="container">
+        <p>&copy; <span id="year"></span> Elen Yeghiazaryan. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- ── Chat Widget ────────────────────────────── -->
+<div class="chat-widget" id="chatWidget">
+    <button class="chat-button" id="chatButton" aria-label="Open chat">
+        <span class="chat-btn-icon">💬</span>
+    </button>
+    <div class="chat-window" id="chatWindow" role="dialog" aria-label="Chat with Elen">
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <div class="chat-avatar">EY</div>
+                <div>
+                    <div class="chat-name">Elen Yeghiazaryan</div>
+                    <div class="chat-status" id="chatStatus">
+                        <span class="status-dot"></span> Usually replies quickly
+                    </div>
+                </div>
+            </div>
+            <button class="chat-close-btn" id="chatClose" aria-label="Close chat">✕</button>
+        </div>
+
+        <div class="chat-body" id="chatBody">
+            <!-- Messages injected by JS -->
+        </div>
+
+        <div class="chat-footer" id="chatFooter">
+            <!-- Input injected by JS -->
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

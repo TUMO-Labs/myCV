@@ -1,253 +1,503 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Elen Yeghiazaryan – CS & Applied Mathematics Student Portfolio">
-    <meta name="theme-color" content="#0f1923">
-    <title>Elen Yeghiazaryan | Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elen Yeghiazaryan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
 </head>
 <body>
 
-<!-- ── Navigation ─────────────────────────────── -->
-<nav id="navbar">
-    <div class="nav-container">
-        <div class="logo">EY</div>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#volunteer">Volunteer</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div class="menu-btn" id="menuBtn" aria-label="Toggle menu">☰</div>
-    </div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="noise"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">EY</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="burger" id="burger"><span></span><span></span><span></span></button>
+  </div>
 </nav>
-
-<!-- ── Hero ───────────────────────────────────── -->
-<section id="home" class="hero">
-    <div class="hero-bg-circle c1"></div>
-    <div class="hero-bg-circle c2"></div>
-    <div class="container">
-        <div class="hero-content">
-            <div class="hero-text">
-                <div class="badge">Welcome to my portfolio</div>
-                <h1>Hi, I'm <span class="highlight">{{ data.name }}</span></h1>
-                <h2>{{ data.title }}</h2>
-                <p>{{ data.about[:180] }}…</p>
-                <div class="hero-buttons">
-                    <a href="#contact" class="btn primary">Get in touch</a>
-                    <a href="#projects" class="btn secondary">View projects</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <div class="image-ring">
-                    <div class="image-circle">
-                        <img src="{{ url_for('static', filename='images/profile.jpg') }}"
-                             alt="Elen Yeghiazaryan"
-                             onerror="this.src='https://placehold.co/300x300/c9a87c/fff?text=EY'">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <a href="#about" class="scroll-hint" aria-label="Scroll down">↓</a>
-</section>
-
-<!-- ── About ──────────────────────────────────── -->
-<section id="about" class="about section-pad">
-    <div class="container">
-        <h2 class="section-title">About Me</h2>
-        <div class="section-line"></div>
-        <div class="about-text">
-            <p>{{ data.about }}</p>
-        </div>
-    </div>
-</section>
-
-<!-- ── Education ──────────────────────────────── -->
-<section id="education" class="education section-pad">
-    <div class="container">
-        <h2 class="section-title">Education</h2>
-        <div class="section-line"></div>
-        <div class="timeline">
-            {% for edu in data.education %}
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h3>{{ edu.institution }}</h3>
-                    <p class="degree">{{ edu.degree }}</p>
-                    <p class="date">{{ edu.period }}</p>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
-<!-- ── Experience ─────────────────────────────── -->
-<section id="experience" class="experience section-pad">
-    <div class="container">
-        <h2 class="section-title">Work Experience</h2>
-        <div class="section-line"></div>
-        {% for job in data.work_experience %}
-        <div class="experience-card reveal">
-            <div class="exp-header">
-                <div>
-                    <h3>{{ job.title }}</h3>
-                    <p class="company">{{ job.company }}</p>
-                </div>
-                <span class="period-badge">{{ job.period }}</span>
-            </div>
-            <ul>
-                {% for resp in job.responsibilities %}
-                <li>{{ resp }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% endfor %}
-    </div>
-</section>
-
-<!-- ── Volunteer ──────────────────────────────── -->
-<section id="volunteer" class="volunteer section-pad">
-    <div class="container">
-        <h2 class="section-title">Volunteer Experience</h2>
-        <div class="section-line"></div>
-        <div class="volunteer-grid">
-            {% for vol in data.volunteer_experience %}
-            <div class="volunteer-card reveal">
-                <div class="vol-icon">🤝</div>
-                <h3>{{ vol.role }}</h3>
-                <p class="volunteer-org">{{ vol.organization }}</p>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
-<!-- ── Projects ───────────────────────────────── -->
-<section id="projects" class="projects section-pad">
-    <div class="container">
-        <h2 class="section-title">Projects</h2>
-        <div class="section-line"></div>
-        <div class="projects-grid">
-            {% for project in data.projects %}
-            <div class="project-card reveal">
-                <h3>{{ project.name }}</h3>
-                <p>{{ project.description }}</p>
-                <div class="tech-stack">
-                    {% for tech in project.technologies %}
-                    <span class="tech">{{ tech }}</span>
-                    {% endfor %}
-                </div>
-                <a href="{{ project.github }}" target="_blank" rel="noopener" class="project-link">
-                    View on GitHub →
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
-<!-- ── Skills ─────────────────────────────────── -->
-<section id="skills" class="skills section-pad">
-    <div class="container">
-        <h2 class="section-title">Skills</h2>
-        <div class="section-line"></div>
-
-        {% for category, skills_list in data.skills.items() %}
-        <div class="skill-category reveal">
-            <h3>{{ category }}</h3>
-            <div class="skills-grid">
-                {% for skill in skills_list %}
-                <span class="skill-badge">{{ skill }}</span>
-                {% endfor %}
-            </div>
-        </div>
-        {% endfor %}
-
-        <h3 class="lang-heading">Languages</h3>
-        <div class="languages">
-            {% for lang in data.languages %}
-            <div class="language-item">
-                <div class="lang-meta">
-                    <span class="lang-name">{{ lang.name }}</span>
-                    <span class="lang-level">{{ lang.level }}</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress" data-width="{{ lang.percentage }}"></div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
-<!-- ── Contact ────────────────────────────────── -->
-<section id="contact" class="contact section-pad">
-    <div class="container">
-        <h2 class="section-title">Get in Touch</h2>
-        <div class="section-line light"></div>
-        <div class="contact-card">
-            <p>I'm always open to new opportunities and collaborations!</p>
-            <div class="contact-info">
-                <a href="mailto:{{ data.email }}" class="contact-link">
-                    <span class="contact-icon">✉</span>{{ data.email }}
-                </a>
-                <a href="{{ data.github }}" target="_blank" rel="noopener" class="contact-link">
-                    <span class="contact-icon">⌥</span>GitHub
-                </a>
-                <a href="{{ data.linkedin }}" target="_blank" rel="noopener" class="contact-link">
-                    <span class="contact-icon">↗</span>LinkedIn
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ── Footer ─────────────────────────────────── -->
-<footer>
-    <div class="container">
-        <p>&copy; <span id="year"></span> Elen Yeghiazaryan. All rights reserved.</p>
-    </div>
-</footer>
-
-<!-- ── Chat Widget ────────────────────────────── -->
-<div class="chat-widget" id="chatWidget">
-    <button class="chat-button" id="chatButton" aria-label="Open chat">
-        <span class="chat-btn-icon">💬</span>
-    </button>
-    <div class="chat-window" id="chatWindow" role="dialog" aria-label="Chat with Elen">
-        <div class="chat-header">
-            <div class="chat-header-info">
-                <div class="chat-avatar">EY</div>
-                <div>
-                    <div class="chat-name">Elen Yeghiazaryan</div>
-                    <div class="chat-status" id="chatStatus">
-                        <span class="status-dot"></span> Usually replies quickly
-                    </div>
-                </div>
-            </div>
-            <button class="chat-close-btn" id="chatClose" aria-label="Close chat">✕</button>
-        </div>
-
-        <div class="chat-body" id="chatBody">
-            <!-- Messages injected by JS -->
-        </div>
-
-        <div class="chat-footer" id="chatFooter">
-            <!-- Input injected by JS -->
-        </div>
-    </div>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
 </div>
 
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="hero-grid-lines"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-left reveal">
+      <div class="hero-tag"><span class="dot-pulse"></span>Available for collaborations</div>
+      <h1 class="hero-name">
+        <span class="name-first">Elen</span>
+        <span class="name-last">Yeghiazaryan</span>
+      </h1>
+      <p class="hero-role">CS &amp; Applied Mathematics Student</p>
+      <p class="hero-location">Yerevan, Armenia &mdash; Born 14.02.2005</p>
+      <p class="hero-desc">At the crossroads of IT,  mathematics and engineering</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="#contact"  class="btn-ghost">Get in Touch</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><span class="hstat-n">7+</span><span class="hstat-l">Projects</span></div>
+        <div class="hstat-sep"></div>
+        <div class="hstat"><span class="hstat-n">5</span><span class="hstat-l">Languages</span></div>
+        <div class="hstat-sep"></div>
+        <div class="hstat"><span class="hstat-n">4</span><span class="hstat-l">Certificates</span></div>
+        <div class="hstat-sep"></div>
+        <div class="hstat"><span class="hstat-n">21</span><span class="hstat-l">Years Old</span></div>
+      </div>
+    </div>
+    <div class="hero-right reveal">
+      <div class="photo-frame">
+        <img src="{{ url_for('static', filename='img/profile.jpg') }}" alt="Elen Yeghiazaryan" class="profile-photo"/>
+        <div class="photo-border"></div>
+        <div class="photo-tag">
+          <span class="tag-dot-green"></span>
+          <span>Elen Yeghiazaryan</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator">
+    <div class="scroll-track"><div class="scroll-thumb"></div></div>
+    <span>Scroll to explore</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section about" id="about">
+  <div class="container">
+    <div class="section-label reveal">01 &mdash; About</div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <h2 class="section-heading">Purposeful &amp; Inquisitive</h2>
+        <p>Purposeful, inquisitive student with a keen interest in leveraging technology to solve real-world problems and creating innovative solutions.</p>
+        <p>Eager to explore the intersection of computation, mathematics and programming. On a mission to learn, innovate, and make a meaningful impact in the tech industry.</p>
+        <p>Always ready to learn, develop new skills, and embrace challenges as key factors in personal and professional growth.</p>
+        <div class="about-meta">
+          <div class="meta-row"><span class="meta-key">Email</span><a href="mailto:elenyeg005@gmail.com" class="meta-val">elenyeg005@gmail.com</a></div>
+          <div class="meta-row"><span class="meta-key">Location</span><span class="meta-val">Yerevan, Armenia</span></div>
+          <div class="meta-row"><span class="meta-key">Born</span><span class="meta-val">14 February 2005</span></div>
+          <div class="meta-row"><span class="meta-key">GitHub</span><a href="https://github.com/elenyeghiazaryan" target="_blank" class="meta-val">elenyeghiazaryan</a></div>
+          <div class="meta-row"><span class="meta-key">LinkedIn</span><a href="https://www.linkedin.com/in/elen-yeghiazaryan/" target="_blank" class="meta-val">elen-yeghiazaryan</a></div>
+        </div>
+      </div>
+      <div class="terminal-wrap reveal">
+        <div class="terminal">
+          <div class="term-header">
+            <div class="term-dots"><span class="td red"></span><span class="td yellow"></span><span class="td green"></span></div>
+            <span class="term-title">elen@portfolio:~</span>
+          </div>
+          <div class="term-body" id="termBody">
+            <div class="term-line"><span class="tp">$</span><span class="tc" data-cmd="whoami"> whoami</span></div>
+            <div class="term-out to-anim">Elen Yeghiazaryan</div>
+            <div class="term-line"><span class="tp">$</span><span class="tc" data-cmd="cat location.txt"> cat location.txt</span></div>
+            <div class="term-out to-anim">Yerevan, Armenia</div>
+            <div class="term-line"><span class="tp">$</span><span class="tc" data-cmd="echo $AGE"> echo $AGE</span></div>
+            <div class="term-out to-anim">21 years old (14.02.2005)</div>
+            <div class="term-line"><span class="tp">$</span><span class="tc" data-cmd="ls skills/"> ls skills/</span></div>
+            <div class="term-out to-anim">python/&nbsp;&nbsp;c/&nbsp;&nbsp;java/&nbsp;&nbsp;iot/&nbsp;&nbsp;networks/&nbsp;&nbsp;ml/</div>
+            <div class="term-line"><span class="tp">$</span><span class="tc" data-cmd="cat status.txt"> cat status.txt</span></div>
+            <div class="term-out to-anim status-ok">Open to collaborations</div>
+            <div class="term-cursor-line"><span class="tp">$</span><span class="term-cur">_</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="section education" id="education">
+  <div class="container">
+    <div class="section-label reveal">02 &mdash; Education</div>
+    <h2 class="section-heading reveal">Academic Path</h2>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-period">2023 &ndash; 2027</div>
+          <h3 class="tl-name">French University of Armenia (UFAR)</h3>
+          <p class="tl-degree">Informatics &amp; Applied Mathematics</p>
+          <span class="tl-badge">Bachelor&apos;s Degree</span>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-period">2024 &ndash; 2027</div>
+          <h3 class="tl-name">Universite Paul Sabatier Toulouse III</h3>
+          <p class="tl-degree">Informatics &amp; Applied Mathematics</p>
+          <span class="tl-badge">Double Degree</span>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-period">2024 &ndash; 2026</div>
+          <h3 class="tl-name">Synopsys Armenia Educational Department</h3>
+          <p class="tl-degree">Semiconductor Engineering</p>
+          <span class="tl-badge">Specialization</span>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-period">2020 &ndash; 2023</div>
+          <h3 class="tl-name">Heratsi High School</h3>
+          <p class="tl-degree">Economics Stream</p>
+          <span class="tl-badge">High School</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="section experience" id="experience">
+  <div class="container">
+    <div class="section-label reveal">03 &mdash; Experience</div>
+    <h2 class="section-heading reveal">Work &amp; Volunteer</h2>
+    <div class="exp-grid">
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <div class="exp-type work">Work</div>
+          <div class="exp-period">Jan 2024 &ndash; Present</div>
+        </div>
+        <h3 class="exp-title">ESL Teacher</h3>
+        <div class="exp-org">Academy Polyglot</div>
+        <ul class="exp-list">
+          <li>Designs lessons for A1&ndash;C1 learners</li>
+          <li>Creates grammar, vocabulary &amp; speaking activities</li>
+          <li>Delivers engaging online and in-person lessons</li>
+          <li>Prepares students for exams and presentations</li>
+        </ul>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <div class="exp-type vol">Volunteer</div>
+          <div class="exp-period">Jul &ndash; Nov 2021</div>
+        </div>
+        <h3 class="exp-title">Community Volunteer</h3>
+        <div class="exp-org">Armenian Red Cross Society</div>
+        <ul class="exp-list">
+          <li>Helped children with homework &amp; extracurricular activities</li>
+          <li>Ran clubs: math, reading, English, sports</li>
+          <li>Taught communication skills</li>
+        </ul>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <div class="exp-type vol">Volunteer</div>
+          <div class="exp-period">Mar 2022</div>
+        </div>
+        <h3 class="exp-title">Call Center Operator</h3>
+        <div class="exp-org">Ministry of High-Tech Industry of Armenia</div>
+        <ul class="exp-list">
+          <li>Surveyed course participants on satisfaction</li>
+          <li>Gathered data on employment outcomes</li>
+        </ul>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <div class="exp-type vol">Volunteer</div>
+          <div class="exp-period">Jun 2022</div>
+        </div>
+        <h3 class="exp-title">Community Development Volunteer</h3>
+        <div class="exp-org">Career Center</div>
+        <ul class="exp-list">
+          <li>Completed first aid course</li>
+          <li>Spread first aid awareness among students</li>
+        </ul>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <div class="exp-type vol">Volunteer</div>
+          <div class="exp-period">Oct 2025</div>
+        </div>
+        <h3 class="exp-title">Event Volunteer</h3>
+        <div class="exp-org">PAVU &mdash; Digitec</div>
+        <ul class="exp-list">
+          <li>Attended and volunteered at the Digitec tech event</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="section projects" id="projects">
+  <div class="container">
+    <div class="section-label reveal">04 &mdash; Projects</div>
+    <h2 class="section-heading reveal">Things I Have Built</h2>
+    <div class="proj-grid">
+      <a href="https://github.com/TUMO-Labs/aem_wifi" target="_blank" class="proj-card reveal featured">
+        <div class="proj-num">01</div>
+        <h3 class="proj-name">Raspberry Pi Mini Network &amp; Gateway</h3>
+        <p class="proj-desc">Network gateway and virtual access point with static routing, DHCP, local DNS, and packet forwarding via dnsmasq/iptables.</p>
+        <div class="proj-tech"><span>Raspberry Pi</span><span>Networking</span><span>dnsmasq</span><span>iptables</span></div>
+        <span class="proj-arrow">&#x2192;</span>
+      </a>
+      <a href="https://github.com/elenyeghiazaryan/Smart-Evacuation-System" target="_blank" class="proj-card reveal">
+        <div class="proj-num">02</div>
+        <h3 class="proj-name">Smart Evacuation System</h3>
+        <p class="proj-desc">B2B safety platform computing real-time personalised evacuation routes using BLE beacon positioning and BFS pathfinding.</p>
+        <div class="proj-tech"><span>Python</span><span>SQL Server</span><span>BFS</span><span>BLE</span></div>
+        <span class="proj-arrow">&#x2192;</span>
+      </a>
+      <a href="https://github.com/elenyeghiazaryan/Global-Demographic-Structure-Analysis" target="_blank" class="proj-card reveal">
+        <div class="proj-num">03</div>
+        <h3 class="proj-name">Global Demographic Analysis</h3>
+        <p class="proj-desc">Multi-stage data pipeline from web scraping to descriptive statistics, hypothesis testing, and advanced visualizations.</p>
+        <div class="proj-tech"><span>Python</span><span>Pandas</span><span>Statistics</span></div>
+        <span class="proj-arrow">&#x2192;</span>
+      </a>
+      <a href="https://github.com/elenyeghiazaryan/voting_app" target="_blank" class="proj-card reveal">
+        <div class="proj-num">04</div>
+        <h3 class="proj-name">Voting App</h3>
+        <p class="proj-desc">Console-based Python voting system with admin panel to track and manage votes in real time.</p>
+        <div class="proj-tech"><span>Python</span><span>CLI</span><span>Admin Panel</span></div>
+        <span class="proj-arrow">&#x2192;</span>
+      </a>
+      <a href="https://github.com/TUMO-Labs/aws-tasks" target="_blank" class="proj-card reveal">
+        <div class="proj-num">05</div>
+        <h3 class="proj-name">Serverless Cloud APIs</h3>
+        <p class="proj-desc">Serverless backend APIs with AWS Lambda, S3, and API Gateway with custom routing and structured JSON logs.</p>
+        <div class="proj-tech"><span>AWS Lambda</span><span>S3</span><span>API Gateway</span></div>
+        <span class="proj-arrow">&#x2192;</span>
+      </a>
+      <a href="https://github.com/TUMO-Labs/raspberryChat" target="_blank" class="proj-card reveal">
+        <div class="proj-num">06</div>
+        <h3 class="proj-name">raspberryChat</h3>
+        <p class="proj-desc">Real-time chat app built with Flask and Flask-SocketIO, deployed on a Raspberry Pi using Nginx and Gunicorn.</p>
+        <div class="proj-tech"><span>Flask</span><span>SocketIO</span><span>Nginx</span></div>
+        <span class="proj-arrow">&#x2192;</span>
+      </a>
+      <a href="https://github.com/elenyeghiazaryan/design-patterns-python" target="_blank" class="proj-card reveal">
+        <div class="proj-num">07</div>
+        <h3 class="proj-name">Design Patterns in Python</h3>
+        <p class="proj-desc">Classic OOP design patterns: Abstract Factory, Adapter, Builder, Decorator, Facade, Factory, and Singleton.</p>
+        <div class="proj-tech"><span>Python</span><span>OOP</span><span>Design Patterns</span></div>
+        <span class="proj-arrow">&#x2192;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section skills" id="skills">
+  <div class="container">
+    <div class="section-label reveal">05 &mdash; Skills</div>
+    <h2 class="section-heading reveal">Tools &amp; Technologies</h2>
+    <div class="skills-grid">
+      <div class="sk-card reveal">
+        <h3 class="sk-title">Programming</h3>
+        <div class="pills"><span>Python</span><span>C</span><span>Java</span></div>
+      </div>
+      <div class="sk-card reveal">
+        <h3 class="sk-title">Technical Areas</h3>
+        <div class="pills"><span>Networking</span><span>IoT</span><span>Machine Learning</span><span>Computer Architecture</span><span>Semiconductor Engineering</span><span>OOP</span><span>MySQL</span><span>Statistics</span><span>Numerical Analysis</span><span>Data Structures &amp; Algorithms</span></div>
+      </div>
+      <div class="sk-card reveal">
+        <h3 class="sk-title">Hardware &amp; Tools</h3>
+        <div class="pills"><span>Raspberry Pi</span><span>ESP32</span><span>Arduino</span><span>Git / GitHub</span><span>VS Code</span><span>Jupyter</span><span>Linux / Ubuntu</span><span>Bash/Zsh</span><span>Vim</span><span>Google Colab</span><span>IntelliJ IDEA</span></div>
+      </div>
+      <div class="sk-card reveal">
+        <h3 class="sk-title">Networking</h3>
+        <div class="pills"><span>TCP/IP</span><span>DNS</span><span>DHCP</span><span>VLANs</span><span>ping</span><span>traceroute</span><span>netstat</span></div>
+      </div>
+      <div class="sk-card reveal">
+        <h3 class="sk-title">Languages</h3>
+        <div class="lang-bars">
+          <div class="lb"><div class="lb-info"><span>Armenian</span><span>Native</span></div><div class="lb-track"><div class="lb-fill" style="--w:100%"></div></div></div>
+          <div class="lb"><div class="lb-info"><span>English</span><span>Fluent</span></div><div class="lb-track"><div class="lb-fill" style="--w:92%"></div></div></div>
+          <div class="lb"><div class="lb-info"><span>French</span><span>Fluent</span></div><div class="lb-track"><div class="lb-fill" style="--w:88%"></div></div></div>
+          <div class="lb"><div class="lb-info"><span>Russian</span><span>Conversational</span></div><div class="lb-track"><div class="lb-fill" style="--w:65%"></div></div></div>
+          <div class="lb"><div class="lb-info"><span>German</span><span>Elementary</span></div><div class="lb-track"><div class="lb-fill" style="--w:35%"></div></div></div>
+        </div>
+      </div>
+      <div class="sk-card reveal">
+        <h3 class="sk-title">Certificates</h3>
+        <div class="certs">
+          <div class="cert"><span class="ck">&#10003;</span>TOEFL</div>
+          <div class="cert"><span class="ck">&#10003;</span>DELF B2</div>
+          <div class="cert"><span class="ck">&#10003;</span>Technovation Girls</div>
+          <div class="cert"><span class="ck">&#10003;</span>TUMO</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact" id="contact">
+  <div class="container">
+    <div class="section-label reveal">06 &mdash; Contact</div>
+    <h2 class="section-heading reveal">Let&apos;s Connect</h2>
+    <p class="contact-sub reveal">Open to new opportunities and collaborations.</p>
+    <div class="contact-row reveal">
+      <a href="mailto:elenyeg005@gmail.com" class="cc">
+        <div class="cc-lbl">Email</div>
+        <div class="cc-val">elenyeg005@gmail.com</div>
+      </a>
+      <a href="https://github.com/elenyeghiazaryan" target="_blank" class="cc">
+        <div class="cc-lbl">GitHub</div>
+        <div class="cc-val">elenyeghiazaryan</div>
+      </a>
+      <a href="https://www.linkedin.com/in/elen-yeghiazaryan/" target="_blank" class="cc">
+        <div class="cc-lbl">LinkedIn</div>
+        <div class="cc-val">elen-yeghiazaryan</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <span>Elen Yeghiazaryan &mdash; Yerevan, Armenia &mdash; 2025</span>
+  </div>
+</footer>
+
+<!-- CHAT FAB -->
+<button class="chat-fab" id="chatFab" aria-label="Contact Elen">
+  <div class="fab-ring"></div>
+  <svg class="fab-ico fab-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+  <svg class="fab-ico fab-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  <div class="fab-badge" id="fabBadge"></div>
+</button>
+
+<!-- MODE PICKER -->
+<div class="mode-picker" id="modePicker">
+  <div class="mp-header">
+    <span class="mp-title">How would you like to connect?</span>
+    <button class="mp-close" id="mpClose">&#x2715;</button>
+  </div>
+  <div class="mp-options">
+    <button class="mp-btn mp-ai" id="chooseAI">
+      <div class="mp-btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      </div>
+      <div class="mp-btn-text">
+        <span class="mp-btn-title">AI Assistant</span>
+        <span class="mp-btn-sub">Instant answers about Elen</span>
+      </div>
+      <span class="mp-btn-badge">Instant</span>
+    </button>
+    <button class="mp-btn mp-human" id="chooseHuman">
+      <div class="mp-btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="mp-btn-text">
+        <span class="mp-btn-title">Message Elen</span>
+        <span class="mp-btn-sub">She will reply personally</span>
+      </div>
+      <span class="mp-btn-badge human">Personal</span>
+    </button>
+  </div>
+</div>
+
+<!-- AI CHAT WIDGET -->
+<div class="chat-widget" id="aiWidget">
+  <div class="cw-header ai-header">
+    <div class="cw-avatar ai-avatar">AI<div class="cw-online"></div></div>
+    <div class="cw-info">
+      <div class="cw-name">AI Assistant</div>
+      <div class="cw-status" id="aiStatus">Ask me anything about Elen</div>
+    </div>
+    <button class="cw-back" id="aiBack" title="Back">&#x2190;</button>
+    <button class="cw-close" id="aiClose">&#x2715;</button>
+  </div>
+  <div class="cw-messages" id="aiMessages">
+    <div class="cw-msg bot">
+      <div class="cw-bubble">Hello! I'm Elen's AI assistant. What's your name?</div>
+      <div class="cw-time">now</div>
+    </div>
+  </div>
+  <div class="cw-input-area">
+    <div class="cw-input-row">
+      <textarea class="cw-input" id="aiInput" placeholder="Ask about Elen..." rows="1"></textarea>
+      <button class="cw-mic" id="aiMic" title="Click to start/stop voice recording">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg>
+      </button>
+      <button class="cw-send" id="aiSend">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+    <div class="voice-bar" id="aiVoiceBar">
+      <div class="vb-waves"><span></span><span></span><span></span><span></span><span></span></div>
+      <span class="vb-label">Recording — click mic again to stop</span>
+    </div>
+  </div>
+</div>
+
+<!-- HUMAN CHAT WIDGET -->
+<div class="chat-widget" id="humanWidget">
+  <div class="cw-header">
+    <div class="cw-avatar">EY<div class="cw-online"></div></div>
+    <div class="cw-info">
+      <div class="cw-name">Message Elen</div>
+      <div class="cw-status" id="cwStatus">Usually replies within a few hours</div>
+    </div>
+    <button class="cw-back" id="humanBack" title="Back">&#x2190;</button>
+    <button class="cw-close" id="cwClose">&#x2715;</button>
+  </div>
+  <div class="cw-name-prompt" id="cwNamePrompt">
+    <p>Before we start, what should Elen call you?</p>
+    <div class="name-input-row">
+      <input type="text" id="cwNameInput" placeholder="Your name..." maxlength="40" />
+      <button id="cwNameSubmit">Start</button>
+    </div>
+  </div>
+  <div class="cw-messages" id="cwMessages" style="display:none">
+    <div class="cw-msg bot">
+      <div class="cw-bubble">Hello! Leave a message for Elen and she will reply here directly.</div>
+      <div class="cw-time">now</div>
+    </div>
+  </div>
+  <div class="cw-input-area" id="cwInputArea" style="display:none">
+    <div class="cw-input-row">
+      <textarea class="cw-input" id="cwInput" placeholder="Type a message..." rows="1"></textarea>
+      <button class="cw-mic" id="cwMic" title="Click to start/stop voice recording">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg>
+      </button>
+      <button class="cw-send" id="cwSend">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+    <div class="voice-bar" id="voiceBar">
+      <div class="vb-waves"><span></span><span></span><span></span><span></span><span></span></div>
+      <span class="vb-label">Recording — click mic again to stop</span>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

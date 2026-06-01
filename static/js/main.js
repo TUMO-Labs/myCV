@@ -1,350 +1,600 @@
-/* ══════════════════════════════════════════════
-   ELEN YEGHIAZARYAN — PORTFOLIO MAIN.JS
-   Bugs fixed:
-   ✔ Dynamic copyright year
-   ✔ Reveal animation (no flash)
-   ✔ Progress bars animate on scroll
-   ✔ Mobile nav closes on link click
-   ✔ Full two-way Telegram chat widget
-══════════════════════════════════════════════ */
+'use strict';
 
-// ─────────────────────────────────────────────
-// Year
-// ─────────────────────────────────────────────
-document.getElementById('year').textContent = new Date().getFullYear();
+// USER ID 
+var userId = localStorage.getItem('elen_uid');
+if (!userId) {
+  userId = 'u_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  localStorage.setItem('elen_uid', userId);
+}
+var visitorName = localStorage.getItem('elen_name') || '';
+var ttsEnabled = localStorage.getItem('tts_enabled') !== 'false';
 
-// ─────────────────────────────────────────────
-// Nav scroll effect
-// ─────────────────────────────────────────────
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
+// CURSOR 
+(function () {
+  var cur = document.getElementById('cursor');
+  var dot = document.getElementById('cursorDot');
+  if (!cur) return;
+  var mx = -200, my = -200, cx = -200, cy = -200;
+  document.addEventListener('mousemove', function (e) {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+  });
+  (function loop() {
+    cx += (mx - cx) * 0.12; cy += (my - cy) * 0.12;
+    cur.style.left = cx + 'px'; cur.style.top = cy + 'px';
+    requestAnimationFrame(loop);
+  })();
+  document.querySelectorAll('a,button,.proj-card,.sk-card,.tl-card,.exp-card,.cc').forEach(function (el) {
+    el.addEventListener('mouseenter', function () { cur.classList.add('hovered'); });
+    el.addEventListener('mouseleave', function () { cur.classList.remove('hovered'); });
+  });
+})();
 
-// ─────────────────────────────────────────────
-// Mobile menu
-// ─────────────────────────────────────────────
-const menuBtn   = document.getElementById('menuBtn');
-const navLinks  = document.querySelector('.nav-links');
+// NAV SCROLL 
+(function () {
+  var nav = document.getElementById('nav');
+  if (!nav) return;
+  window.addEventListener('scroll', function () {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+})();
 
-menuBtn?.addEventListener('click', () => navLinks.classList.toggle('active'));
+//  MOBILE MENU 
+(function () {
+  var btn = document.getElementById('burger');
+  var menu = document.getElementById('mobileMenu');
+  if (!btn || !menu) return;
+  btn.addEventListener('click', function () { menu.classList.toggle('open'); });
+  menu.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { menu.classList.remove('open'); });
+  });
+})();
 
-navLinks?.querySelectorAll('a').forEach(a =>
-    a.addEventListener('click', () => navLinks.classList.remove('active'))
-);
-
-// ─────────────────────────────────────────────
-// Smooth scrolling
-// ─────────────────────────────────────────────
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-        const target = document.querySelector(a.getAttribute('href'));
-        if (!target) return;
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth' });
+//  REVEAL ON SCROLL 
+(function () {
+  var items = document.querySelectorAll('.reveal');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      var siblings = Array.from(el.parentElement ? el.parentElement.querySelectorAll('.reveal:not(.visible)') : []);
+      var idx = siblings.indexOf(el);
+      setTimeout(function () { el.classList.add('visible'); }, Math.min(idx, 4) * 80);
+      io.unobserve(el);
     });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  items.forEach(function (el) { io.observe(el); });
+})();
+
+//  LANGUAGE BARS 
+(function () {
+  var fills = document.querySelectorAll('.lb-fill');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { setTimeout(function () { e.target.classList.add('animated'); }, 200); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.5 });
+  fills.forEach(function (f) { io.observe(f); });
+})();
+
+//  TERMINAL ANIMATION 
+(function () {
+  var outs = document.querySelectorAll('.term-out.to-anim');
+  var io = new IntersectionObserver(function (entries) {
+    if (!entries[0].isIntersecting) return;
+    outs.forEach(function (out, i) { setTimeout(function () { out.classList.add('visible'); }, i * 320); });
+    io.disconnect();
+  }, { threshold: 0.4 });
+  var tb = document.getElementById('termBody');
+  if (tb) io.observe(tb);
+})();
+
+// SMOOTH SCROLL 
+document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+  a.addEventListener('click', function (e) {
+    var t = document.querySelector(a.getAttribute('href'));
+    if (!t) return;
+    e.preventDefault();
+    t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 });
 
-// ─────────────────────────────────────────────
-// Reveal on scroll (FIX: set opacity:0 in CSS, not after intersect)
-// ─────────────────────────────────────────────
-const revealObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            revealObserver.unobserve(e.target);
-        }
-    });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-// ─────────────────────────────────────────────
-// Progress bars (language section)
-// ─────────────────────────────────────────────
-const progressObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-            e.target.querySelectorAll('.progress[data-width]').forEach(bar => {
-                bar.style.width = bar.dataset.width + '%';
-            });
-            progressObserver.unobserve(e.target);
-        }
-    });
-}, { threshold: 0.3 });
-
-const langSection = document.querySelector('.languages');
-if (langSection) progressObserver.observe(langSection);
-
-// ─────────────────────────────────────────────
-// ── CHAT WIDGET ──────────────────────────────
-// ─────────────────────────────────────────────
-
-const chatButton = document.getElementById('chatButton');
-const chatWindow = document.getElementById('chatWindow');
-const chatClose  = document.getElementById('chatClose');
-const chatBody   = document.getElementById('chatBody');
-const chatFooter = document.getElementById('chatFooter');
-
-let chatOpen = false;
-
-function toggleChat() {
-    chatOpen = !chatOpen;
-    chatWindow.classList.toggle('open', chatOpen);
-    if (chatOpen && chatBody.childElementCount === 0) initChat();
-}
-
-chatButton?.addEventListener('click', toggleChat);
-chatClose?.addEventListener('click', () => {
-    chatOpen = false;
-    chatWindow.classList.remove('open');
+//  STAGGER DELAYS 
+['.proj-grid .proj-card', '.exp-grid .exp-card', '.skills-grid .sk-card', '.contact-row .cc'].forEach(function (sel) {
+  document.querySelectorAll(sel).forEach(function (el, i) { el.style.transitionDelay = (i * 0.06) + 's'; });
 });
 
-// ── State ──────────────────────────────────
-let userName      = '';
-let sessionId     = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2);
-let lastUpdateId  = 0;
-let pollTimer     = null;
-let waitingReply  = false;
-let lastMsgId     = null;
-
-// ── DOM helpers ────────────────────────────
-function addMsg(text, type = 'bot') {
-    const d = document.createElement('div');
-    d.className = `chat-msg ${type}`;
-    d.textContent = text;
-    chatBody.appendChild(d);
-    scrollBottom();
-    return d;
-}
-
-function addTyping() {
-    const d = document.createElement('div');
-    d.className = 'chat-msg bot';
-    d.id = 'typingIndicator';
-    d.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
-    chatBody.appendChild(d);
-    scrollBottom();
-}
-
-function removeTyping() {
-    document.getElementById('typingIndicator')?.remove();
-}
-
-function scrollBottom() {
-    chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' });
-}
-
-function clearFooter() {
-    chatFooter.innerHTML = '';
-}
-
-function addOptions(opts, callback) {
-    const row = document.createElement('div');
-    row.className = 'chat-options-row';
-    opts.forEach(({ label, value }) => {
-        const btn = document.createElement('button');
-        btn.className = 'chat-opt';
-        btn.textContent = label;
-        btn.addEventListener('click', () => {
-            // disable all opts
-            row.querySelectorAll('.chat-opt').forEach(b => b.disabled = true);
-            addMsg(label, 'user');
-            callback(value);
+// ACTIVE NAV 
+(function () {
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.nav-links a[href^="#"]');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        links.forEach(function (l) {
+          l.style.color = '';
+          if (l.getAttribute('href') === '#' + entry.target.id) l.style.color = 'var(--gold)';
         });
-        row.appendChild(btn);
+      }
     });
-    chatBody.appendChild(row);
-    scrollBottom();
+  }, { threshold: 0.45 });
+  sections.forEach(function (s) { io.observe(s); });
+})();
+
+// PERSISTENCE FUNCTIONS (save/load messages to localStorage)
+function saveMessages(containerId, messages) {
+  localStorage.setItem(`chat_${userId}_${containerId}`, JSON.stringify(messages));
 }
 
-function showNameInput() {
-    clearFooter();
-    const row = document.createElement('div');
-    row.className = 'chat-input-row';
-    const inp = document.createElement('input');
-    inp.type        = 'text';
-    inp.placeholder = 'Your name…';
-    inp.className   = 'chat-input';
-    inp.maxLength   = 60;
-    const btn = document.createElement('button');
-    btn.className   = 'chat-send-btn';
-    btn.textContent = '→';
-
-    const submit = () => {
-        const val = inp.value.trim();
-        if (!val) { inp.focus(); return; }
-        clearFooter();
-        addMsg(val, 'user');
-        userName = val;
-        showTopicMenu();
-    };
-
-    btn.addEventListener('click', submit);
-    inp.addEventListener('keydown', e => { if (e.key === 'Enter') submit(); });
-
-    row.appendChild(inp);
-    row.appendChild(btn);
-    chatFooter.appendChild(row);
-    setTimeout(() => inp.focus(), 50);
-}
-
-function showMessageInput(onSend) {
-    clearFooter();
-    const ta  = document.createElement('textarea');
-    ta.className   = 'chat-textarea';
-    ta.placeholder = 'Type your message…';
-    ta.maxLength   = 1000;
-    chatFooter.appendChild(ta);
-
-    const row = document.createElement('div');
-    row.className   = 'chat-input-row';
-    const btn = document.createElement('button');
-    btn.className   = 'chat-send-btn';
-    btn.textContent = 'Send 📨';
-
-    const submit = () => {
-        const val = ta.value.trim();
-        if (!val) { ta.focus(); return; }
-        clearFooter();
-        addMsg(val, 'user');
-        onSend(val);
-    };
-
-    btn.addEventListener('click', submit);
-    ta.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(); } });
-    row.appendChild(btn);
-    chatFooter.appendChild(row);
-    setTimeout(() => ta.focus(), 50);
-}
-
-// ── Chat flow ──────────────────────────────
-function initChat() {
-    addMsg('Hi there! 👋 I\'m Elen. What\'s your name?');
-    showNameInput();
-}
-
-function showTopicMenu() {
-    addMsg(`Nice to meet you, ${userName}! 👋 What would you like to know about?`);
-    addOptions([
-        { label: '📖 About Elen',   value: 'about'      },
-        { label: '🎓 Education',    value: 'education'  },
-        { label: '💼 Experience',   value: 'experience' },
-        { label: '🚀 Projects',     value: 'projects'   },
-        { label: '⚙️ Skills',       value: 'skills'     },
-        { label: '💬 Send a message', value: 'message'  },
-    ], handleTopic);
-}
-
-const topicReplies = {
-    about:      "I'm a CS & Applied Mathematics student passionate about tech, IoT, and data science. I love building things that solve real problems! 🚀",
-    education:  "I study at the French University of Armenia and Université Paul Sabatier Toulouse III. I'm also taking Semiconductor Engineering at Synopsys! 📚",
-    experience: "I work as an ESL Teacher at Academy Polyglot, helping students improve their English from A1 all the way to C1. I love teaching! 💪",
-    projects:   "Check out my projects on GitHub! I've built IoT systems with ESP32, ML models in Python, and this portfolio with live Telegram chat. 🔗",
-    skills:     "I work with Python, C, Java, Flask, Git, IoT, SQL, and more. Always learning new technologies! ⚡",
-};
-
-async function handleTopic(topic) {
-    if (topic === 'message') {
-        addMsg('Of course! Write your message and I\'ll get back to you as soon as possible 😊');
-        showMessageInput(sendUserMessage);
-        return;
-    }
-
-    addTyping();
-    await delay(900);
-    removeTyping();
-    addMsg(topicReplies[topic] || 'Thanks for your interest!');
-
-    addOptions([
-        { label: '💬 Send Elen a message', value: 'message' },
-        { label: '🔚 End conversation',    value: 'end'     },
-    ], opt => {
-        if (opt === 'message') {
-            addMsg('Sure! What would you like to tell me?');
-            showMessageInput(sendUserMessage);
-        } else {
-            endChat();
-        }
-    });
-}
-
-async function sendUserMessage(message) {
-    waitingReply = true;
-    addTyping();
-
+function loadMessages(containerId) {
+  var saved = localStorage.getItem(`chat_${userId}_${containerId}`);
+  if (saved) {
     try {
-        const res = await fetch('/send-message', {
-            method:  'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify({ name: userName, message, session_id: sessionId }),
-        });
+      return JSON.parse(saved);
+    } catch(e) { return []; }
+  }
+  return [];
+}
 
-        if (!res.ok) throw new Error('Server error');
-        const data = await res.json();
-        lastMsgId = data.message_id;
+function addMsgWithPersistence(container, role, text, labelText) {
+  var wrap = document.createElement('div');
+  wrap.className = 'cw-msg ' + role;
+  if (labelText) {
+    var lbl = document.createElement('div');
+    lbl.className = 'elen-label';
+    lbl.textContent = labelText;
+    wrap.appendChild(lbl);
+  }
+  var bubble = document.createElement('div');
+  bubble.className = 'cw-bubble';
+  bubble.style.whiteSpace = 'pre-wrap';
+  bubble.textContent = text;
+  wrap.appendChild(bubble);
+  var t = document.createElement('div');
+  t.className = 'cw-time';
+  t.textContent = timeNow();
+  wrap.appendChild(t);
+  container.appendChild(wrap);
+  scrollBottom(container);
+  
+  var containerId = container.id;
+  if (containerId) {
+    var messages = loadMessages(containerId);
+    messages.push({ role, text, label: labelText || null, time: timeNow() });
+    if (messages.length > 100) messages = messages.slice(-100);
+    saveMessages(containerId, messages);
+  }
+}
 
-        removeTyping();
-        addMsg('✅ Message sent! I\'ll reply here as soon as I can.');
-        document.getElementById('chatStatus').innerHTML = '<span class="status-dot"></span> Waiting for reply…';
-        startPolling();
-
-    } catch {
-        removeTyping();
-        addMsg('⚠️ Couldn\'t send the message. Please try emailing me directly!');
-        clearFooter();
+function restoreMessages(containerId, containerElement) {
+  var messages = loadMessages(containerId);
+  messages.forEach(function(msg) {
+    var wrap = document.createElement('div');
+    wrap.className = 'cw-msg ' + msg.role;
+    if (msg.label) {
+      var lbl = document.createElement('div');
+      lbl.className = 'elen-label';
+      lbl.textContent = msg.label;
+      wrap.appendChild(lbl);
     }
+    var bubble = document.createElement('div');
+    bubble.className = 'cw-bubble';
+    bubble.style.whiteSpace = 'pre-wrap';
+    bubble.textContent = msg.text;
+    wrap.appendChild(bubble);
+    var t = document.createElement('div');
+    t.className = 'cw-time';
+    t.textContent = msg.time;
+    wrap.appendChild(t);
+    containerElement.appendChild(wrap);
+  });
+  scrollBottom(containerElement);
 }
 
-function endChat() {
-    addMsg(`Thanks for stopping by, ${userName}! Feel free to come back anytime. 👋`);
-    clearFooter();
-    setTimeout(() => {
-        chatOpen = false;
-        chatWindow.classList.remove('open');
-    }, 2500);
+// Override global addMsgTo
+window.addMsgTo = addMsgWithPersistence;
+
+// HELPER FUNCTIONS 
+function timeNow() {
+  var d = new Date();
+  return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+}
+function scrollBottom(el) {
+  requestAnimationFrame(function () { if (el) el.scrollTop = el.scrollHeight; });
+}
+function showTyping(container, id) {
+  var wrap = document.createElement('div');
+  wrap.className = 'cw-msg bot typing-indicator';
+  wrap.id = id;
+  wrap.innerHTML = '<div class="cw-bubble"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>';
+  container.appendChild(wrap);
+  scrollBottom(container);
+}
+function removeTyping(id) {
+  var el = document.getElementById(id);
+  if (el) el.remove();
 }
 
-// ── Polling for Elen's reply ───────────────
+// SOCKETIO CONNECTION 
+var socket = io();
+socket.on('connect', function() { console.log('SocketIO connected'); });
+socket.on('ai_response', function(data) {
+  removeTyping('aiTyping');
+  addMsgWithPersistence(aiMessages, 'bot', data.answer);
+  aiStatus.textContent = 'Ask me anything about Elen';
+  aiSending = false;
+  aiSend.disabled = false;
+  if (ttsEnabled && data.answer && !data.answer.includes('Nice to meet you')) {
+    speakText(data.answer);
+  }
+});
+socket.on('ai_error', function(data) {
+  removeTyping('aiTyping');
+  addMsgWithPersistence(aiMessages, 'bot', data.error || 'Something went wrong.');
+  aiSending = false;
+  aiSend.disabled = false;
+});
+
+//  TTS (TEXT‑TO‑SPEECH) 
+function speakText(text) {
+  if (!window.speechSynthesis) return;
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'en-US';
+  utterance.rate = 0.9;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utterance);
+}
+function stopSpeaking() {
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+}
+
+// CHAT UI ELEMENTS 
+var chatFab = document.getElementById('chatFab');
+var modePicker = document.getElementById('modePicker');
+var aiWidget = document.getElementById('aiWidget');
+var humanWidget = document.getElementById('humanWidget');
+var fabBadge = document.getElementById('fabBadge');
+var mpClose = document.getElementById('mpClose');
+var chooseAI = document.getElementById('chooseAI');
+var chooseHuman = document.getElementById('chooseHuman');
+var chatMode = null;
+var notifCount = 0;
+
+// Add TTS mute button to AI header
+var aiHeader = document.querySelector('#aiWidget .cw-header');
+if (aiHeader) {
+  var muteBtn = document.createElement('button');
+  muteBtn.className = 'cw-mute';
+  muteBtn.innerHTML = ttsEnabled ? '🔊' : '🔇';
+  muteBtn.title = 'Toggle voice reading';
+  muteBtn.style.background = 'none';
+  muteBtn.style.border = 'none';
+  muteBtn.style.cursor = 'pointer';
+  muteBtn.style.fontSize = '1.2rem';
+  muteBtn.style.marginLeft = 'auto';
+  muteBtn.style.marginRight = '8px';
+  muteBtn.onclick = function() {
+    ttsEnabled = !ttsEnabled;
+    localStorage.setItem('tts_enabled', ttsEnabled);
+    muteBtn.innerHTML = ttsEnabled ? '🔊' : '🔇';
+    if (!ttsEnabled) stopSpeaking();
+  };
+  var aiCloseBtn = document.querySelector('#aiWidget .cw-close');
+  if (aiCloseBtn) aiHeader.insertBefore(muteBtn, aiCloseBtn);
+}
+
+function closeAll() {
+  modePicker.classList.remove('open');
+  if (aiWidget) aiWidget.classList.remove('open');
+  if (humanWidget) humanWidget.classList.remove('open');
+  chatFab.classList.remove('open');
+  chatMode = null;
+}
+function openPicker() {
+  closeAll();
+  modePicker.classList.add('open');
+  chatFab.classList.add('open');
+  chatMode = 'picker';
+}
+function openAI() {
+  modePicker.classList.remove('open');
+  if (humanWidget) humanWidget.classList.remove('open');
+  aiWidget.classList.add('open');
+  chatFab.classList.add('open');
+  chatMode = 'ai';
+  aiMessages.innerHTML = '';
+  var saved = loadMessages('aiMessages');
+  if (saved.length === 0) {
+    addMsgWithPersistence(aiMessages, 'bot', "Hello! I'm Elen's AI assistant. What's your name?");
+  } else {
+    restoreMessages('aiMessages', aiMessages);
+  }
+  aiStatus.textContent = 'Ask me anything about Elen';
+  setTimeout(function() { if (aiInput) aiInput.focus(); }, 300);
+  scrollBottom(aiMessages);
+}
+function openHuman() {
+  modePicker.classList.remove('open');
+  if (aiWidget) aiWidget.classList.remove('open');
+  humanWidget.classList.add('open');
+  chatFab.classList.add('open');
+  chatMode = 'human';
+  notifCount = 0;
+  fabBadge.classList.remove('show');
+  fabBadge.textContent = '';
+  if (visitorName) {
+    if (cwMessages && loadMessages('cwMessages').length > 0) {
+      cwMessages.innerHTML = '';
+      restoreMessages('cwMessages', cwMessages);
+    }
+    showHumanChatUI();
+  } else {
+    setTimeout(function () { if (cwNameInput) cwNameInput.focus(); }, 300);
+  }
+}
+chatFab.addEventListener('click', function () {
+  if (chatMode) { closeAll(); } else { openPicker(); }
+});
+mpClose.addEventListener('click', closeAll);
+chooseAI.addEventListener('click', openAI);
+chooseHuman.addEventListener('click', openHuman);
+document.getElementById('aiBack')?.addEventListener('click', openPicker);
+document.getElementById('humanBack')?.addEventListener('click', openPicker);
+document.getElementById('aiClose')?.addEventListener('click', closeAll);
+document.getElementById('cwClose')?.addEventListener('click', closeAll);
+
+//  AI CHAT (SocketIO + voice input) 
+var aiMessages = document.getElementById('aiMessages');
+var aiInput = document.getElementById('aiInput');
+var aiSend = document.getElementById('aiSend');
+var aiMic = document.getElementById('aiMic');
+var aiVoiceBar = document.getElementById('aiVoiceBar');
+var aiStatus = document.getElementById('aiStatus');
+var aiSending = false;
+var aiRecording = false;
+var aiRecognition = null;
+
+aiInput.addEventListener('input', function () {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+});
+aiInput.addEventListener('keydown', function (e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); doAISend(); }
+});
+aiSend.addEventListener('click', doAISend);
+
+function doAISend() {
+  var text = aiInput.value.trim();
+  if (!text || aiSending) return;
+  addMsgWithPersistence(aiMessages, 'user', text);
+  aiInput.value = '';
+  aiInput.style.height = 'auto';
+  aiSending = true;
+  aiSend.disabled = true;
+  aiStatus.textContent = 'Thinking...';
+  showTyping(aiMessages, 'aiTyping');
+  socket.emit('ai_message', { userId: userId, message: text });
+}
+
+// Voice input (speech‑to‑text)
+(function setupAIVoice() {
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { if(aiMic) aiMic.style.opacity = '0.3'; return; }
+  aiRecognition = new SR();
+  aiRecognition.continuous = true;
+  aiRecognition.interimResults = true;
+  aiRecognition.lang = 'en-US';
+  aiRecognition.onstart = function() {
+    aiRecording = true;
+    if(aiMic) aiMic.classList.add('recording');
+    if(aiVoiceBar) aiVoiceBar.classList.add('active');
+    if(aiStatus) aiStatus.textContent = 'Recording... click mic again to stop';
+  };
+  aiRecognition.onend = function() {
+    if (aiRecording) {
+      try { aiRecognition.start(); } catch(e) { stopAIRecording(); }
+    } else {
+      if(aiMic) aiMic.classList.remove('recording');
+      if(aiVoiceBar) aiVoiceBar.classList.remove('active');
+      if(aiStatus) aiStatus.textContent = 'Ask me anything about Elen';
+    }
+  };
+  aiRecognition.onresult = function(event) {
+    var transcript = '';
+    for (var i = 0; i < event.results.length; i++) {
+      transcript += event.results[i][0].transcript;
+    }
+    if(aiInput) aiInput.value = transcript;
+    if(aiInput) aiInput.style.height = 'auto';
+  };
+  aiRecognition.onerror = function(e) {
+    console.error(e.error);
+    stopAIRecording();
+    if (e.error === 'not-allowed') {
+      addMsgWithPersistence(aiMessages, 'bot', 'Microphone access denied. Please allow microphone and reload.');
+    }
+  };
+  if(aiMic) {
+    aiMic.addEventListener('click', function() {
+      if (aiRecording) {
+        stopAIRecording();
+        setTimeout(function() { if (aiInput.value.trim()) doAISend(); }, 200);
+      } else {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          addMsgWithPersistence(aiMessages, 'bot', '⚠️ Microphone requires HTTPS or localhost.');
+          return;
+        }
+        navigator.mediaDevices.getUserMedia({ audio: true })
+          .then(function(stream) { stream.getTracks().forEach(t => t.stop()); startAIRecording(); })
+          .catch(function() { addMsgWithPersistence(aiMessages, 'bot', 'Microphone access denied.'); });
+      }
+    });
+  }
+  function startAIRecording() { try { aiRecognition.start(); aiRecording = true; } catch(e) {} }
+  function stopAIRecording() { try { aiRecognition.stop(); } catch(e) {} aiRecording = false; }
+})();
+
+//  HUMAN CHAT (polling + persistence) 
+var cwMessages   = document.getElementById('cwMessages');
+var cwInput      = document.getElementById('cwInput');
+var cwSend       = document.getElementById('cwSend');
+var cwMic        = document.getElementById('cwMic');
+var voiceBar     = document.getElementById('voiceBar');
+var cwStatus     = document.getElementById('cwStatus');
+var cwInputArea  = document.getElementById('cwInputArea');
+var cwNamePrompt = document.getElementById('cwNamePrompt');
+var cwNameInput  = document.getElementById('cwNameInput');
+var cwNameSubmit = document.getElementById('cwNameSubmit');
+var humanSending = false;
+var pollTimer    = null;
+var humanRecording = false;
+var humanRecognition = null;
+
+function showHumanChatUI() {
+  if (cwNamePrompt) cwNamePrompt.style.display = 'none';
+  if (cwMessages)   cwMessages.style.display   = 'flex';
+  if (cwInputArea)  cwInputArea.style.display  = 'block';
+  if (cwMessages && loadMessages('cwMessages').length > 0) {
+    cwMessages.innerHTML = '';
+    restoreMessages('cwMessages', cwMessages);
+  } else if (cwMessages && cwMessages.children.length === 0) {
+    addMsgWithPersistence(cwMessages, 'bot', 'Hello! Leave a message for Elen and she will reply here directly.');
+  }
+  scrollBottom(cwMessages);
+  setTimeout(function () { if (cwInput) cwInput.focus(); }, 100);
+  if (!pollTimer) startPolling();
+}
+
+if (cwNameSubmit) {
+  cwNameSubmit.addEventListener('click', submitName);
+}
+if (cwNameInput) {
+  cwNameInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') submitName(); });
+}
+
+function submitName() {
+  var name = (cwNameInput ? cwNameInput.value.trim() : '') || 'Visitor';
+  visitorName = name;
+  localStorage.setItem('elen_name', name);
+  showHumanChatUI();
+  fetch('/api/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: userId, name: name })
+  }).catch(function () {});
+}
+
+if (visitorName && cwNamePrompt) {
+  cwNamePrompt.style.display = 'none';
+  if (cwMessages)  cwMessages.style.display  = 'flex';
+  if (cwInputArea) cwInputArea.style.display = 'block';
+  if (cwMessages && loadMessages('cwMessages').length > 0) {
+    cwMessages.innerHTML = '';
+    restoreMessages('cwMessages', cwMessages);
+  } else if (cwMessages && cwMessages.children.length === 0) {
+    addMsgWithPersistence(cwMessages, 'bot', 'Hello! Leave a message for Elen and she will reply here directly.');
+  }
+}
+
+cwInput.addEventListener('input', function () {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+});
+cwInput.addEventListener('keydown', function (e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); doHumanSend(); }
+});
+cwSend.addEventListener('click', doHumanSend);
+
+function doHumanSend() {
+  var text = cwInput.value.trim();
+  if (!text || humanSending) return;
+  addMsgWithPersistence(cwMessages, 'user', text);
+  cwInput.value = '';
+  cwInput.style.height = 'auto';
+  humanSending = true;
+  cwSend.disabled = true;
+  fetch('/api/message', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: userId, name: visitorName, text: text })
+  })
+  .then(function (r) { return r.json(); })
+  .then(function (data) {
+    humanSending = false;
+    cwSend.disabled = false;
+    if (data.error) addMsgWithPersistence(cwMessages, 'bot', 'Message could not be delivered. Please try again.');
+  })
+  .catch(function () {
+    humanSending = false;
+    cwSend.disabled = false;
+    addMsgWithPersistence(cwMessages, 'bot', 'Connection error. Please try again.');
+  });
+}
+
 function startPolling() {
-    if (pollTimer) return;
-    poll();
+  if (pollTimer) return;
+  pollTimer = setInterval(pollReply, 3000);
 }
+function pollReply() {
+  fetch('/api/poll?userId=' + encodeURIComponent(userId))
+  .then(function (r) { return r.json(); })
+  .then(function (data) {
+    if (data.type === 'reply' && data.text) {
+      addMsgWithPersistence(cwMessages, 'elen', data.text, 'Elen');
+      cwStatus.textContent = 'Elen replied';
+      setTimeout(function () { cwStatus.textContent = 'Usually replies within a few hours'; }, 5000);
+      if (chatMode !== 'human') {
+        notifCount++;
+        fabBadge.textContent = notifCount;
+        fabBadge.classList.add('show');
+      }
+    }
+  })
+  .catch(function () {});
+}
+startPolling();
 
-async function poll() {
-    if (!waitingReply) return;
-
-    try {
-        const url = `/poll-reply?session_id=${sessionId}&after_update_id=${lastUpdateId}`;
-        const res = await fetch(url);
-        const data = await res.json();
-
-        if (data.status === 'reply') {
-            waitingReply = false;
-            lastUpdateId = data.update_id;
-
-            document.getElementById('chatStatus').innerHTML = '<span class="status-dot"></span> Usually replies quickly';
-            addMsg(`Elen: ${data.text}`, 'elen');
-
-            addOptions([
-                { label: '💬 Reply back',     value: 'reply' },
-                { label: '🔚 End conversation', value: 'end' },
-            ], opt => {
-                if (opt === 'reply') {
-                    showMessageInput(sendUserMessage);
-                } else {
-                    endChat();
-                }
-            });
-            return; // stop polling
+// Human voice input
+(function setupHumanVoice() {
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { if(cwMic) cwMic.style.opacity = '0.3'; return; }
+  humanRecognition = new SR();
+  humanRecognition.continuous = true;
+  humanRecognition.interimResults = true;
+  humanRecognition.lang = 'en-US';
+  humanRecognition.onstart = function() {
+    humanRecording = true;
+    if(cwMic) cwMic.classList.add('recording');
+    if(voiceBar) voiceBar.classList.add('active');
+    if(cwStatus) cwStatus.textContent = 'Recording... click mic again to stop';
+  };
+  humanRecognition.onend = function() {
+    if (humanRecording) { try { humanRecognition.start(); } catch(e) { stopHumanRecording(); } }
+    else { if(cwMic) cwMic.classList.remove('recording'); if(voiceBar) voiceBar.classList.remove('active'); if(cwStatus) cwStatus.textContent = 'Usually replies within a few hours'; }
+  };
+  humanRecognition.onresult = function(event) {
+    var transcript = '';
+    for (var i = 0; i < event.results.length; i++) transcript += event.results[i][0].transcript;
+    if(cwInput) cwInput.value = transcript;
+    if(cwInput) cwInput.style.height = 'auto';
+  };
+  humanRecognition.onerror = function(e) { stopHumanRecording(); };
+  if(cwMic) {
+    cwMic.addEventListener('click', function() {
+      if (humanRecording) {
+        stopHumanRecording();
+        setTimeout(function() { if (cwInput.value.trim()) doHumanSend(); }, 200);
+      } else {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          addMsgWithPersistence(cwMessages, 'bot', '⚠️ Microphone requires HTTPS or localhost.');
+          return;
         }
-
-        if (data.update_id) lastUpdateId = data.update_id;
-    } catch { /* network hiccup, retry */ }
-
-    // retry every 6 seconds while waiting
-    pollTimer = setTimeout(() => { pollTimer = null; poll(); }, 6000);
-}
-
-// ── Utility ────────────────────────────────
-function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+        navigator.mediaDevices.getUserMedia({ audio: true })
+          .then(function(stream) { stream.getTracks().forEach(t => t.stop()); startHumanRecording(); })
+          .catch(function() { addMsgWithPersistence(cwMessages, 'bot', 'Microphone access denied.'); });
+      }
+    });
+  }
+  function startHumanRecording() { try { humanRecognition.start(); humanRecording = true; } catch(e) {} }
+  function stopHumanRecording() { try { humanRecognition.stop(); } catch(e) {} humanRecording = false; }
+})();

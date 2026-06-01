@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elen Yeghiazaryan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="noise"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">EY</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="burger" id="burger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="hero-grid-lines"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-left reveal">
+      <div class="hero-tag"><span class="dot-pulse"></span>Available for collaborations</div>
+      <h1 class="hero-name">
+        <span class="name-first">Elen</span>
+        <span class="name-last">Yeghiazaryan</span>
+      </h1>
+      <p class="hero-role">CS &amp; Applied Mathematics Student</p>
+      <p class="hero-location">Yerevan, Armenia &mdash; Born 14.02.2005</p>
+      <p class="hero-desc">Building at the intersection of computation, mathematics and engineering</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="#contact"  class="btn-ghost">Get in Touch</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><span class="hstat-n">7+</span><span class="hstat-l">Projects</span></div>
+        <div class="hstat-sep"></div>
+        <div class="hstat"><span class="hstat-n">5</span><span class="hstat-l">Languages</span></div>
+        <div class="hstat-sep"></div>
+        <div class="hstat"><span class="hstat-n">4</span><span class="hstat-l">Certificates</span></div>
+        <div class="hstat-sep"></div>
+        <div class="hstat"><span class="hstat-n">21</span><span class="hstat-l">Years Old</span></div>
+      </div>
+    </div>
+    <div class="hero-right reveal">
+      <div class="photo-frame">
+        <img src="/profile.jpg" alt="Elen Yeghiazaryan" class="profile-photo"/>
+        <div class="photo-border"></div>
+        <div class="photo-tag">
+          <span class="tag-dot-green"></span>
+          <span>Elen Yeghiazaryan</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator">
+    <div class="scroll-track"><div class="scroll-thumb"></div></div>
+    <span>Scroll to explore</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section about" id="about">
+  <div class="container">
+    <div class="section-label reveal">01 &mdash; About</div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <h2 class="section-heading">Purposeful &amp; Inquisitive</h2>
+        <p>Purposeful, inquisitive student with a keen interest in leveraging technology to solve real-world problems and creating innovative solutions.</p>
+        <p>Eager to explore the intersection of computation, mathematics and programming. On a mission to learn, innovate, and make a meaningful impact in the tech industry.</p>
+        <p>Always ready to learn, develop new skills, and embrace challenges as key factors in personal and professional growth.</p>
+        <div class="about-meta">
+          <div class="meta-row"><span class="meta-key">Email</span><a href="mailto:elenyeg005@gmail.com" class="meta-val">elenyeg005@gmail.com</a></div>
+          <div class="meta-row"><span class="meta-key">Location</span><span class="meta-val">Yerevan, Armenia</span></div>
+          <div class="meta-row"><span class="meta-key">Born</span><span class="meta-val">14 February 2005</span></div>
+          <div class="meta-row"><span class="meta-key">GitHub</span><a href="https://github.com/elenyeghiazaryan" target="_blank" class="meta-val">elenyeghiazaryan</a></div>
+          <div class="meta-row"><span class="meta-key">LinkedIn</span><a href="https://www.linkedin.com/in/elen-yeghiazaryan/" target="_blank" class="meta-val">elen-yeghiazaryan</a></div>
+        </div>
+      </div>
+      <div class="terminal-wrap reveal">
+        <div class="terminal">
+          <div class="term-header">
+            <div class="term-dots"><span class="td red"></span><span class="td yellow"></span><span class="td green"></span></div>
+            <span class="term-title">elen@portfolio:~</span>
+          </div>
+          <div class="term-body" id="termBody">
+            <div class="term-line"><span class="tp">$</span><span class="tc" data-cmd="whoami"> whoami</span></div>
+            <div class="term-out to-anim">Elen Yeghiazaryan</div>
+            <div class="term-line"><span class="tp">$</span><span class="tc" data-cmd="cat location.txt"> cat location.txt</span></div>
+            <div class="term-out to-anim">Yerevan, Armenia</div>
+            <div class="term-line"><span class="tp">$</span><span class="tc" data-cmd="echo $AGE"> echo $AGE</span></div>
+            <div class="term-out to-anim">20 years old (14.02.2005)</div>
+            <div class="term-line"><span class="tp">$</span><span class="tc" data-cmd="ls skills/"> ls skills/</span></div>
+            <div class="term-out to-anim">python/&nbsp;&nbsp;c/&nbsp;&nbsp;java/&nbsp;&nbsp;iot/&nbsp;&nbsp;networks/&nbsp;&nbsp;ml/</div>
+            <div class="term-line"><span class="tp">$</span><span class="tc" data-cmd="cat status.txt"> cat status.txt</span></div>
+            <div class="term-out to-anim status-ok">Open to collaborations</div>
+            <div class="term-cursor-line"><span class="tp">$</span><span class="term-cur">_</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="section education" id="education">
+  <div class="container">
+    <div class="section-label reveal">02 &mdash; Education</div>
+    <h2 class="section-heading reveal">Academic Path</h2>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-period">2023 &ndash; 2027</div>
+          <h3 class="tl-name">French University of Armenia (UFAR)</h3>
+          <p class="tl-degree">Informatics &amp; Applied Mathematics</p>
+          <span class="tl-badge">Bachelor&apos;s Degree</span>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-period">2024 &ndash; 2027</div>
+          <h3 class="tl-name">Universite Paul Sabatier Toulouse III</h3>
+          <p class="tl-degree">Informatics &amp; Applied Mathematics</p>
+          <span class="tl-badge">Double Degree</span>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-period">2024 &ndash; 2026</div>
+          <h3 class="tl-name">Synopsys Armenia Educational Department</h3>
+          <p class="tl-degree">Semiconductor Engineering</p>
+          <span class="tl-badge">Specialization</span>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-period">2020 &ndash; 2023</div>
+          <h3 class="tl-name">Heratsi High School</h3>
+          <p class="tl-degree">Economics Stream</p>
+          <span class="tl-badge">High School</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="section experience" id="experience">
+  <div class="container">
+    <div class="section-label reveal">03 &mdash; Experience</div>
+    <h2 class="section-heading reveal">Work &amp; Volunteer</h2>
+    <div class="exp-grid">
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <div class="exp-type work">Work</div>
+          <div class="exp-period">Jan 2024 &ndash; Present</div>
+        </div>
+        <h3 class="exp-title">ESL Teacher</h3>
+        <div class="exp-org">Academy Polyglot</div>
+        <ul class="exp-list">
+          <li>Designs lessons for A1&ndash;C1 learners</li>
+          <li>Creates grammar, vocabulary &amp; speaking activities</li>
+          <li>Delivers engaging online and in-person lessons</li>
+          <li>Prepares students for exams and presentations</li>
+        </ul>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <div class="exp-type vol">Volunteer</div>
+          <div class="exp-period">Jul &ndash; Nov 2021</div>
+        </div>
+        <h3 class="exp-title">Community Volunteer</h3>
+        <div class="exp-org">Armenian Red Cross Society</div>
+        <ul class="exp-list">
+          <li>Helped children with homework &amp; extracurricular activities</li>
+          <li>Ran clubs: math, reading, English, sports</li>
+          <li>Taught communication skills</li>
+        </ul>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <div class="exp-type vol">Volunteer</div>
+          <div class="exp-period">Mar 2022</div>
+        </div>
+        <h3 class="exp-title">Call Center Operator</h3>
+        <div class="exp-org">Ministry of High-Tech Industry of Armenia</div>
+        <ul class="exp-list">
+          <li>Surveyed course participants on satisfaction</li>
+          <li>Gathered data on employment outcomes</li>
+        </ul>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <div class="exp-type vol">Volunteer</div>
+          <div class="exp-period">Jun 2022</div>
+        </div>
+        <h3 class="exp-title">Community Development Volunteer</h3>
+        <div class="exp-org">Career Center</div>
+        <ul class="exp-list">
+          <li>Completed first aid course</li>
+          <li>Spread first aid awareness among students</li>
+        </ul>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <div class="exp-type vol">Volunteer</div>
+          <div class="exp-period">Oct 2025</div>
+        </div>
+        <h3 class="exp-title">Event Volunteer</h3>
+        <div class="exp-org">PAVU &mdash; Digitec</div>
+        <ul class="exp-list">
+          <li>Attended and volunteered at the Digitec tech event</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="section projects" id="projects">
+  <div class="container">
+    <div class="section-label reveal">04 &mdash; Projects</div>
+    <h2 class="section-heading reveal">Things I Have Built</h2>
+    <div class="proj-grid">
+      <a href="https://github.com/TUMO-Labs/aem_wifi" target="_blank" class="proj-card reveal featured">
+        <div class="proj-num">01</div>
+        <h3 class="proj-name">Raspberry Pi Mini Network &amp; Gateway</h3>
+        <p class="proj-desc">Network gateway and virtual access point with static routing, DHCP, local DNS, and packet forwarding via dnsmasq/iptables.</p>
+        <div class="proj-tech"><span>Raspberry Pi</span><span>Networking</span><span>dnsmasq</span><span>iptables</span></div>
+        <span class="proj-arrow">&#x2192;</span>
+      </a>
+      <a href="https://github.com/elenyeghiazaryan/Smart-Evacuation-System" target="_blank" class="proj-card reveal">
+        <div class="proj-num">02</div>
+        <h3 class="proj-name">Smart Evacuation System</h3>
+        <p class="proj-desc">B2B safety platform computing real-time personalised evacuation routes using BLE beacon positioning and BFS pathfinding.</p>
+        <div class="proj-tech"><span>Python</span><span>SQL Server</span><span>BFS</span><span>BLE</span></div>
+        <span class="proj-arrow">&#x2192;</span>
+      </a>
+      <a href="https://github.com/elenyeghiazaryan/Global-Demographic-Structure-Analysis" target="_blank" class="proj-card reveal">
+        <div class="proj-num">03</div>
+        <h3 class="proj-name">Global Demographic Analysis</h3>
+        <p class="proj-desc">Multi-stage data pipeline from web scraping to descriptive statistics, hypothesis testing, and advanced visualizations.</p>
+        <div class="proj-tech"><span>Python</span><span>Pandas</span><span>Statistics</span></div>
+        <span class="proj-arrow">&#x2192;</span>
+      </a>
+      <a href="https://github.com/elenyeghiazaryan/voting_app" target="_blank" class="proj-card reveal">
+        <div class="proj-num">04</div>
+        <h3 class="proj-name">Voting App</h3>
+        <p class="proj-desc">Console-based Python voting system with admin panel to track and manage votes in real time.</p>
+        <div class="proj-tech"><span>Python</span><span>CLI</span><span>Admin Panel</span></div>
+        <span class="proj-arrow">&#x2192;</span>
+      </a>
+      <a href="https://github.com/TUMO-Labs/aws-tasks" target="_blank" class="proj-card reveal">
+        <div class="proj-num">05</div>
+        <h3 class="proj-name">Serverless Cloud APIs</h3>
+        <p class="proj-desc">Serverless backend APIs with AWS Lambda, S3, and API Gateway with custom routing and structured JSON logs.</p>
+        <div class="proj-tech"><span>AWS Lambda</span><span>S3</span><span>API Gateway</span></div>
+        <span class="proj-arrow">&#x2192;</span>
+      </a>
+      <a href="https://github.com/TUMO-Labs/raspberryChat" target="_blank" class="proj-card reveal">
+        <div class="proj-num">06</div>
+        <h3 class="proj-name">raspberryChat</h3>
+        <p class="proj-desc">Real-time chat app built with Flask and Flask-SocketIO, deployed on a Raspberry Pi using Nginx and Gunicorn.</p>
+        <div class="proj-tech"><span>Flask</span><span>SocketIO</span><span>Nginx</span></div>
+        <span class="proj-arrow">&#x2192;</span>
+      </a>
+      <a href="https://github.com/elenyeghiazaryan/design-patterns-python" target="_blank" class="proj-card reveal">
+        <div class="proj-num">07</div>
+        <h3 class="proj-name">Design Patterns in Python</h3>
+        <p class="proj-desc">Classic OOP design patterns: Abstract Factory, Adapter, Builder, Decorator, Facade, Factory, and Singleton.</p>
+        <div class="proj-tech"><span>Python</span><span>OOP</span><span>Design Patterns</span></div>
+        <span class="proj-arrow">&#x2192;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section skills" id="skills">
+  <div class="container">
+    <div class="section-label reveal">05 &mdash; Skills</div>
+    <h2 class="section-heading reveal">Tools &amp; Technologies</h2>
+    <div class="skills-grid">
+      <div class="sk-card reveal">
+        <h3 class="sk-title">Programming</h3>
+        <div class="pills"><span>Python</span><span>C</span><span>Java</span></div>
+      </div>
+      <div class="sk-card reveal">
+        <h3 class="sk-title">Technical Areas</h3>
+        <div class="pills"><span>Networking</span><span>IoT</span><span>Machine Learning</span><span>Computer Architecture</span><span>Semiconductor Engineering</span><span>OOP</span><span>MySQL</span><span>Statistics</span><span>Numerical Analysis</span><span>Data Structures &amp; Algorithms</span></div>
+      </div>
+      <div class="sk-card reveal">
+        <h3 class="sk-title">Hardware &amp; Tools</h3>
+        <div class="pills"><span>Raspberry Pi</span><span>ESP32</span><span>Arduino</span><span>Git / GitHub</span><span>VS Code</span><span>Jupyter</span><span>Linux / Ubuntu</span><span>Bash/Zsh</span><span>Vim</span><span>Google Colab</span><span>IntelliJ IDEA</span></div>
+      </div>
+      <div class="sk-card reveal">
+        <h3 class="sk-title">Networking</h3>
+        <div class="pills"><span>TCP/IP</span><span>DNS</span><span>DHCP</span><span>VLANs</span><span>ping</span><span>traceroute</span><span>netstat</span></div>
+      </div>
+      <div class="sk-card reveal">
+        <h3 class="sk-title">Languages</h3>
+        <div class="lang-bars">
+          <div class="lb"><div class="lb-info"><span>Armenian</span><span>Native</span></div><div class="lb-track"><div class="lb-fill" style="--w:100%"></div></div></div>
+          <div class="lb"><div class="lb-info"><span>English</span><span>Fluent</span></div><div class="lb-track"><div class="lb-fill" style="--w:92%"></div></div></div>
+          <div class="lb"><div class="lb-info"><span>French</span><span>Fluent</span></div><div class="lb-track"><div class="lb-fill" style="--w:88%"></div></div></div>
+          <div class="lb"><div class="lb-info"><span>Russian</span><span>Conversational</span></div><div class="lb-track"><div class="lb-fill" style="--w:65%"></div></div></div>
+          <div class="lb"><div class="lb-info"><span>German</span><span>Elementary</span></div><div class="lb-track"><div class="lb-fill" style="--w:35%"></div></div></div>
+        </div>
+      </div>
+      <div class="sk-card reveal">
+        <h3 class="sk-title">Certificates</h3>
+        <div class="certs">
+          <div class="cert"><span class="ck">&#10003;</span>TOEFL</div>
+          <div class="cert"><span class="ck">&#10003;</span>DELF B2</div>
+          <div class="cert"><span class="ck">&#10003;</span>Technovation Girls</div>
+          <div class="cert"><span class="ck">&#10003;</span>TUMO</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact" id="contact">
+  <div class="container">
+    <div class="section-label reveal">06 &mdash; Contact</div>
+    <h2 class="section-heading reveal">Let&apos;s Connect</h2>
+    <p class="contact-sub reveal">Open to new opportunities and collaborations.</p>
+    <div class="contact-row reveal">
+      <a href="mailto:elenyeg005@gmail.com" class="cc">
+        <div class="cc-lbl">Email</div>
+        <div class="cc-val">elenyeg005@gmail.com</div>
+      </a>
+      <a href="https://github.com/elenyeghiazaryan" target="_blank" class="cc">
+        <div class="cc-lbl">GitHub</div>
+        <div class="cc-val">elenyeghiazaryan</div>
+      </a>
+      <a href="https://www.linkedin.com/in/elen-yeghiazaryan/" target="_blank" class="cc">
+        <div class="cc-lbl">LinkedIn</div>
+        <div class="cc-val">elen-yeghiazaryan</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <span>Elen Yeghiazaryan &mdash; Yerevan, Armenia &mdash; 2025</span>
+  </div>
+</footer>
+
+<!-- CHAT BUBBLE -->
+<button class="chat-fab" id="chatFab" aria-label="Message Elen">
+  <div class="fab-ring"></div>
+  <svg class="fab-ico fab-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+  <svg class="fab-ico fab-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  <div class="fab-badge" id="fabBadge"></div>
+</button>
+
+<!-- CHAT WIDGET -->
+<div class="chat-widget" id="chatWidget">
+  <div class="cw-header">
+    <div class="cw-avatar">EY<div class="cw-online"></div></div>
+    <div class="cw-info">
+      <div class="cw-name">Message Elen</div>
+      <div class="cw-status" id="cwStatus">Usually replies within a few hours</div>
+    </div>
+    <button class="cw-close" id="cwClose">&#x2715;</button>
+  </div>
+
+  <!-- Name prompt (shown first time) -->
+  <div class="cw-name-prompt" id="cwNamePrompt">
+    <p>Before we start, what should Elen call you?</p>
+    <div class="name-input-row">
+      <input type="text" id="cwNameInput" placeholder="Your name..." maxlength="40" />
+      <button id="cwNameSubmit">Start</button>
+    </div>
+  </div>
+
+  <div class="cw-messages" id="cwMessages" style="display:none">
+    <div class="cw-msg bot">
+      <div class="cw-bubble">Hello! Leave a message for Elen and she will reply here directly.</div>
+      <div class="cw-time">now</div>
+    </div>
+  </div>
+
+  <div class="cw-input-area" id="cwInputArea" style="display:none">
+    <div class="cw-input-row">
+      <textarea class="cw-input" id="cwInput" placeholder="Type a message..." rows="1"></textarea>
+      <button class="cw-mic" id="cwMic" title="Click to start/stop voice recording">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg>
+      </button>
+      <button class="cw-send" id="cwSend">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+    <div class="voice-bar" id="voiceBar">
+      <div class="vb-waves"><span></span><span></span><span></span><span></span><span></span></div>
+      <span class="vb-label">Recording — click mic again to stop</span>
+    </div>
+  </div>
+</div>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

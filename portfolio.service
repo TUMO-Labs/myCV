@@ -1,5 +1,5 @@
 [Unit]
-Description=Gunicorn instance to serve my portfolio
+Description=Gunicorn instance for Elen CV (SocketIO)
 After=network.target
 
 [Service]
@@ -7,6 +7,7 @@ User=ubuntu
 Group=ubuntu
 WorkingDirectory=/home/ubuntu/workspace/myCV
 Environment="PATH=/home/ubuntu/workspace/myCV/venv/bin"
+EnvironmentFile=/home/ubuntu/workspace/myCV/.env
 ExecStart=/home/ubuntu/workspace/myCV/venv/bin/gunicorn \
     --worker-class eventlet \
     --workers 1 \
